@@ -1,4 +1,4 @@
-package com.palfib.turingWithTwoStack.data.stackMachine;
+package com.palfib.turingWithTwoStack.entity.stackMachine;
 
 import java.util.Stack;
 

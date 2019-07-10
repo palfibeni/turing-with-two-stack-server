@@ -1,4 +1,4 @@
-package com.palfib.turingWithTwoStack.data.turingMachine;
+package com.palfib.turingWithTwoStack.entity.enums;
 
 public enum Direction {
     FORWARD,

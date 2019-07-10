@@ -1,5 +1,6 @@
-package com.palfib.turingWithTwoStack.data.turingMachine;
+package com.palfib.turingWithTwoStack.entity.turingMachine;
 
+import lombok.Getter;
 import lombok.val;
 
 import java.util.ArrayDeque;
