@@ -2,28 +2,27 @@ package com.palfib.turingWithTwoStack.dto.turingMachine;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.palfib.turingWithTwoStack.dto.RuleDto;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder(toBuilder = true)
 @JsonDeserialize(builder = TuringMachineDto.TuringMachineDtoBuilder.class)
 public class TuringMachineDto {
 
-    private List<Character> inputCharacters;
+    private Set<Character> inputCharacters;
 
-    private List<Character> tapeCharacters;
+    private Set<Character> tapeCharacters;
 
-    private List<String> states;
+    private Set<String> states;
 
     private String startState;
 
-    private List<String> acceptStates;
+    private Set<String> acceptStates;
 
-    private List<TuringRuleDto> rules;
+    private Set<String> declineStates;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class TuringMachineDtoBuilder {

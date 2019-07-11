@@ -1,44 +1,46 @@
 package com.palfib.turingWithTwoStack.entity.turingMachine;
 
-import com.palfib.turingWithTwoStack.entity.State;
+import com.palfib.turingWithTwoStack.entity.MachineState;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.val;
-import org.hibernate.internal.util.Cloneable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Data
 @Builder(toBuilder = true)
 @NoArgsConstructor
-public class TuringMachine extends Cloneable {
+@AllArgsConstructor
+public class TuringMachine {
 
-    private final List<Character> inputCharacters = new ArrayList<>();
+    @Builder.Default
+    private Set<Character> inputCharacters = new HashSet<>();
 
-    private final List<Character> tapeCharacters = new ArrayList<>();
+    @Builder.Default
+    private Set<Character> tapeCharacters = new HashSet<>();
 
-    private final List<State> states = new ArrayList<>();
+    @Builder.Default
+    private Set<MachineState> states = new HashSet<>();
 
-    private State startState;
+    private MachineState startState;
 
-    private State currentState;
+    @Builder.Default
+    private Set<MachineState> acceptStates = new HashSet<>();
 
-    private final List<State> acceptStates = new ArrayList<>();
+    @Builder.Default
+    private Set<MachineState> declineStates = new HashSet<>();
 
-    private final List<TuringRule> rules = new ArrayList<>();
+    @Builder.Default
+    private Set<TuringRule> rules = new HashSet<>();
 
-    private Tape tape;
-
-    public void initTape(String input) {
-        this.tape = new Tape(input);
-    }
-
-    @Override
-    public TuringMachine clone() {
-        val clone = new TuringMachine();
-        clone.inputCharacters.addAll(this.inputCharacters);
-        clone.tapeCharacters.addAll(this.tapeCharacters);
+    public TuringMachine(final TuringMachine turingMachine) {
+        this.inputCharacters.addAll(turingMachine.inputCharacters);
+        this.tapeCharacters.addAll(turingMachine.tapeCharacters);
+        this.states.addAll(turingMachine.states);
+        this.startState = turingMachine.startState;
+        this.acceptStates.addAll(turingMachine.acceptStates);
+        this.declineStates.addAll(turingMachine.declineStates);
+        this.rules.addAll(turingMachine.rules);
     }
 }

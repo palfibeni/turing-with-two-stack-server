@@ -6,15 +6,21 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-@Builder(toBuilder = true)
 public abstract class Rule {
 
-    private State fromState;
+    private MachineState fromState;
 
-    private State toState;
+    private MachineState toState;
 
     private Character readCharacter;
 
     private Character writeCharacter;
+
+    public Rule(Rule rule) {
+        this.fromState = rule.fromState;
+        this.toState = rule.fromState;
+        this.readCharacter = rule.readCharacter;
+        this.writeCharacter = rule.writeCharacter;
+    }
 
 }

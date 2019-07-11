@@ -10,6 +10,5 @@ public class TuringMachineService {
 
     public void calculate(final TuringMachineDto turingMachineDto, final String input) {
         val turingMachine = TuringMachineConverter.fromDto(turingMachineDto);
-        turingMachine.initTape(input);
     }
 }

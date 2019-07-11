@@ -5,9 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class State {
-
-    private long id;
+public class MachineState {
 
     private String name;
 

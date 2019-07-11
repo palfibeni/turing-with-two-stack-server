@@ -1,7 +1,7 @@
 package com.palfib.turingWithTwoStack.converter.turingMachine;
 
 import com.palfib.turingWithTwoStack.dto.turingMachine.TuringRuleDto;
-import com.palfib.turingWithTwoStack.entity.State;
+import com.palfib.turingWithTwoStack.entity.MachineState;
 import com.palfib.turingWithTwoStack.entity.enums.Direction;
 import com.palfib.turingWithTwoStack.entity.turingMachine.TuringRule;
 
@@ -11,11 +11,11 @@ import static java.util.stream.Collectors.toList;
 
 public class TuringRuleConverter {
 
-    public static List<TuringRule> fromDtos(final List<TuringRuleDto> dtos, final List<State> states) {
+    public static List<TuringRule> fromDtos(final List<TuringRuleDto> dtos, final List<MachineState> states) {
         return dtos.stream().map(dto -> TuringRuleConverter.fromDto(dto, states)).collect(toList());
     }
 
-    public static TuringRule fromDto(final TuringRuleDto dto, final List<State> states) {
+    public static TuringRule fromDto(final TuringRuleDto dto, final List<MachineState> states) {
         return TuringRule.builder()
                 .fromState(getStateFromDto(dto.getFromState(), states))
                 .toState(getStateFromDto(dto.getToState(), states))
@@ -25,7 +25,7 @@ public class TuringRuleConverter {
                 .build();
     }
 
-    private static State getStateFromDto(final String dtoState, final List<State> states) {
+    private static MachineState getStateFromDto(final String dtoState, final List<MachineState> states) {
         return states.stream()
                 .filter(state -> state.getName().equals(dtoState))
                 .findFirst()
