@@ -1,9 +1,9 @@
-package com.palfib.turingWithTwoStack.converter.turingMachine;
+package com.palfib.turingWithTwoStack.converter;
 
-import com.palfib.turingWithTwoStack.dto.turingMachine.TuringRuleDto;
+import com.palfib.turingWithTwoStack.dto.TuringRuleDto;
 import com.palfib.turingWithTwoStack.entity.MachineState;
 import com.palfib.turingWithTwoStack.entity.enums.Direction;
-import com.palfib.turingWithTwoStack.entity.turingMachine.TuringRule;
+import com.palfib.turingWithTwoStack.entity.TuringRule;
 
 import java.util.List;
 

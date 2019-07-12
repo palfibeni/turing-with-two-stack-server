@@ -1,7 +1,7 @@
 package com.palfib.turingWithTwoStack.service;
 
-import com.palfib.turingWithTwoStack.converter.turingMachine.TuringMachineConverter;
-import com.palfib.turingWithTwoStack.dto.turingMachine.TuringMachineDto;
+import com.palfib.turingWithTwoStack.converter.TuringMachineConverter;
+import com.palfib.turingWithTwoStack.dto.TuringMachineDto;
 import lombok.val;
 import org.springframework.stereotype.Service;
 

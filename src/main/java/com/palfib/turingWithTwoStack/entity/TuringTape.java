@@ -1,4 +1,4 @@
-package com.palfib.turingWithTwoStack.entity.turingMachine;
+package com.palfib.turingWithTwoStack.entity;
 
 import com.palfib.turingWithTwoStack.entity.enums.Direction;
 import lombok.Getter;
@@ -9,12 +9,13 @@ import java.util.ArrayDeque;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * The TuringTape has a currentPosition priority character, which is the one, the cursor points at.
+ */
 @NoArgsConstructor
 @ToString
 @Getter
-public class Tape {
-
-    public static final Character EMPTY = '_';
+public class TuringTape {
 
     private final ArrayDeque<Character> charactersAhead = new ArrayDeque<>();
 
@@ -23,62 +24,46 @@ public class Tape {
     @Getter
     private Character currentPosition;
 
-    public Tape(final String input) {
+    TuringTape(final String input) {
         this.currentPosition = input.charAt(0);
         this.charactersAhead.addAll(input.substring(1).chars()
                 .mapToObj(ch -> (char) ch)
                 .collect(toList()));
     }
 
-    public Tape(final Tape tape) {
-        this.currentPosition = tape.currentPosition;
-        this.charactersAhead.addAll(tape.charactersAhead);
-        this.charactersBehind.addAll(tape.charactersBehind);
+    TuringTape(final TuringTape turingTape) {
+        this.currentPosition = turingTape.currentPosition;
+        this.charactersAhead.addAll(turingTape.charactersAhead);
+        this.charactersBehind.addAll(turingTape.charactersBehind);
     }
 
-    public void useRule(final Direction direction, final Character writeCharacter) {
-        switch (direction){
-            case FORWARD:
-                this.moveCursorForward(writeCharacter);
-                break;
-            case BACKWARD:
-                this.moveCursorBackward(writeCharacter);
-                break;
-            case STAY:
-                this.stayWithCursor(writeCharacter);
-                break;
-             default:
-                 throw new IllegalStateException("Not known direction: " + direction);
-        }
-    }
-
-    private Character moveCursorForward(final Character characterToWrite) {
+    Character moveCursorForward(final Character characterToWrite) {
         this.charactersBehind.addLast(characterToWrite);
         this.currentPosition = getFirstFromAhead();
         return currentPosition;
     }
 
-    private Character moveCursorBackward(final Character characterToWrite) {
+    Character moveCursorBackward(final Character characterToWrite) {
         this.charactersAhead.addFirst(characterToWrite);
         this.currentPosition = getLastFromBehind();
         return currentPosition;
     }
 
-    private Character stayWithCursor(final Character characterToWrite) {
+    Character stayWithCursor(final Character characterToWrite) {
         this.currentPosition = characterToWrite;
         return currentPosition;
     }
 
     private Character getFirstFromAhead() {
         if (charactersAhead.isEmpty()) {
-            return EMPTY;
+            return Condition.EMPTY;
         }
         return charactersAhead.removeFirst();
     }
 
     private Character getLastFromBehind() {
         if (charactersBehind.isEmpty()) {
-            return EMPTY;
+            return Condition.EMPTY;
         }
         return charactersBehind.removeLast();
     }

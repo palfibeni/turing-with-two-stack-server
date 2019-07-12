@@ -1,18 +1,16 @@
-package com.palfib.turingWithTwoStack.dto.turingMachine;
+package com.palfib.turingWithTwoStack.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
 import java.util.Set;
 
-@Data
+@Getter
 @Builder(toBuilder = true)
 @JsonDeserialize(builder = TuringMachineDto.TuringMachineDtoBuilder.class)
 public class TuringMachineDto {
-
-    private Set<Character> inputCharacters;
 
     private Set<Character> tapeCharacters;
 
