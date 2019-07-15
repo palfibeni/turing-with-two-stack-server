@@ -38,13 +38,17 @@ public class TuringTape {
     }
 
     Character moveCursorForward(final Character characterToWrite) {
-        this.charactersBehind.addLast(characterToWrite);
+        if(!charactersBehind.isEmpty() || !Condition.EMPTY.equals(characterToWrite)) {
+            this.charactersBehind.addLast(characterToWrite);
+        }
         this.currentPosition = getFirstFromAhead();
         return currentPosition;
     }
 
     Character moveCursorBackward(final Character characterToWrite) {
-        this.charactersAhead.addFirst(characterToWrite);
+        if(!charactersAhead.isEmpty() || !Condition.EMPTY.equals(characterToWrite)) {
+            this.charactersAhead.addFirst(characterToWrite);
+        }
         this.currentPosition = getLastFromBehind();
         return currentPosition;
     }

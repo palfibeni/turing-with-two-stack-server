@@ -10,11 +10,11 @@ import static java.util.stream.Collectors.toSet;
 
 public class TwoStackRuleConverter {
 
-    public Set<TwoStackRule> fromTuringRules(final Set<TuringRule> turingRules) {
-        return turingRules.stream().map(this::fromTuringRule).collect(toSet());
+    public static Set<TwoStackRule> fromTuringRules(final Set<TuringRule> turingRules) {
+        return turingRules.stream().map(TwoStackRuleConverter::fromTuringRule).collect(toSet());
     }
 
-    private TwoStackRule fromTuringRule(final TuringRule turingRule) {
+    private static TwoStackRule fromTuringRule(final TuringRule turingRule) {
         final boolean isForward = Direction.FORWARD.equals(turingRule.getDirection());
         return TwoStackRule.builder()
                 .fromState(turingRule.getFromState())
@@ -22,7 +22,7 @@ public class TwoStackRuleConverter {
                 .toState(turingRule.getToState())
                 .writeLeft(isForward ? turingRule.getWriteCharacter().toString() : "")
                 .writeRight(isForward ? "" : turingRule.getWriteCharacter().toString())
-                .copyLeftToWrite(Direction.BACKWARD.equals(turingRule.getDirection()))
+                .copyLeftToRight(Direction.BACKWARD.equals(turingRule.getDirection()))
                 .build();
     }
 }

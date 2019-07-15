@@ -24,6 +24,9 @@ public class TwoStackCondition extends Condition {
     }
 
     private void insertWordIntoStack(final String word, final Stack<Character> stack) {
+        if (stack.isEmpty() && Condition.EMPTY_AS_STRING.equals(word)) {
+            return;
+        }
         word.chars()
                 .mapToObj(ch -> (char) ch)
                 .forEach(stack::push);
@@ -50,17 +53,14 @@ public class TwoStackCondition extends Condition {
             throw new IllegalStateException("Only TuringRule can be used on TuringState!");
         }
         val twoStackRule = (TwoStackRule) rule;
-        if (!rightStack.isEmpty()) {
-            rightStack.pop();
+        if (!this.rightStack.isEmpty()) {
+            this.rightStack.pop();
         }
-        if (!rightStack.isEmpty() || !Condition.EMPTY_AS_STRING.equals(twoStackRule.getWriteRight())) {
-            insertWordIntoStack(twoStackRule.getWriteRight(), this.rightStack);
-        }
-        if (!leftStack.isEmpty() || !Condition.EMPTY_AS_STRING.equals(twoStackRule.getWriteLeft())) {
-            insertWordIntoStack(twoStackRule.getWriteLeft(), this.leftStack);
-        }
+        insertWordIntoStack(twoStackRule.getWriteRight(), this.rightStack);
+        insertWordIntoStack(twoStackRule.getWriteLeft(), this.leftStack);
         if (twoStackRule.isCopyLeftToRight()) {
-            this.rightStack.push(this.leftStack.pop());
+            val topOfLeftStack = (this.leftStack.isEmpty() ? Condition.EMPTY : this.leftStack.pop()).toString();
+            insertWordIntoStack(topOfLeftStack, this.rightStack);
         }
     }
 }

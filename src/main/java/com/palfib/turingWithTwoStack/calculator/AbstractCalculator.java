@@ -103,7 +103,7 @@ public abstract class AbstractCalculator <T extends Machine, C extends Condition
                 this.accepted = false;
                 return true;
             }
-            if (this.numberOfSteps > 100) {
+            if (this.numberOfSteps > 1000) {
                 this.accepted = false;
                 return true;
             }

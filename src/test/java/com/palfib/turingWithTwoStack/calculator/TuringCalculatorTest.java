@@ -40,7 +40,7 @@ public class TuringCalculatorTest {
         val condition = result.get(0);
         assertThat(condition.getCurrentState()).isEqualTo(startState);
         assertThat(condition.getTuringTape().getCharactersBehind()).isEmpty();
-        assertThat(condition.getTuringTape().getCurrentPosition()).isEqualTo('A');
+        assertThat(condition.getCurrentPosition()).isEqualTo('A');
         assertThat(condition.getTuringTape().getCharactersAhead()).containsExactly('B', 'C');
     }
 
@@ -66,13 +66,13 @@ public class TuringCalculatorTest {
         val condition1 = result.get(0);
         assertThat(condition1.getCurrentState()).isEqualTo(startState);
         assertThat(condition1.getTuringTape().getCharactersBehind()).isEmpty();
-        assertThat(condition1.getTuringTape().getCurrentPosition()).isEqualTo('A');
+        assertThat(condition1.getCurrentPosition()).isEqualTo('A');
         assertThat(condition1.getTuringTape().getCharactersAhead()).containsExactly('B', 'C');
 
         val condition2 = result.get(1);
         assertThat(condition2.getCurrentState()).isEqualTo(acceptState1);
         assertThat(condition2.getTuringTape().getCharactersBehind()).isEmpty();
-        assertThat(condition2.getTuringTape().getCurrentPosition()).isEqualTo('X');
+        assertThat(condition2.getCurrentPosition()).isEqualTo('X');
         assertThat(condition2.getTuringTape().getCharactersAhead()).containsExactly('B', 'C');
     }
 
@@ -104,31 +104,31 @@ public class TuringCalculatorTest {
         val condition1 = result.get(0);
         assertThat(condition1.getCurrentState()).isEqualTo(startState);
         assertThat(condition1.getTuringTape().getCharactersBehind()).isEmpty();
-        assertThat(condition1.getTuringTape().getCurrentPosition()).isEqualTo('A');
+        assertThat(condition1.getCurrentPosition()).isEqualTo('A');
         assertThat(condition1.getTuringTape().getCharactersAhead()).containsExactly('B', 'C');
 
         val condition2 = result.get(1);
         assertThat(condition2.getCurrentState()).isEqualTo(middleState1);
         assertThat(condition2.getTuringTape().getCharactersBehind()).containsExactly('X');
-        assertThat(condition2.getTuringTape().getCurrentPosition()).isEqualTo('B');
+        assertThat(condition2.getCurrentPosition()).isEqualTo('B');
         assertThat(condition2.getTuringTape().getCharactersAhead()).containsExactly('C');
 
         val condition3 = result.get(2);
         assertThat(condition3.getCurrentState()).isEqualTo(middleState1);
         assertThat(condition3.getTuringTape().getCharactersBehind()).containsExactly('X', 'X');
-        assertThat(condition3.getTuringTape().getCurrentPosition()).isEqualTo('C');
+        assertThat(condition3.getCurrentPosition()).isEqualTo('C');
         assertThat(condition3.getTuringTape().getCharactersAhead()).isEmpty();
 
         val condition4 = result.get(3);
         assertThat(condition4.getCurrentState()).isEqualTo(middleState1);
         assertThat(condition4.getTuringTape().getCharactersBehind()).containsExactly('X', 'X', 'X');
-        assertThat(condition4.getTuringTape().getCurrentPosition()).isEqualTo(Condition.EMPTY);
+        assertThat(condition4.getCurrentPosition()).isEqualTo(Condition.EMPTY);
         assertThat(condition4.getTuringTape().getCharactersAhead()).isEmpty();
 
         val condition5 = result.get(4);
         assertThat(condition5.getCurrentState()).isEqualTo(acceptState1);
         assertThat(condition5.getTuringTape().getCharactersBehind()).containsExactly('X', 'X', 'X');
-        assertThat(condition5.getTuringTape().getCurrentPosition()).isEqualTo(Condition.EMPTY);
+        assertThat(condition5.getCurrentPosition()).isEqualTo(Condition.EMPTY);
         assertThat(condition5.getTuringTape().getCharactersAhead()).isEmpty();
     }
 
@@ -152,31 +152,31 @@ public class TuringCalculatorTest {
         val condition1 = result.get(0);
         assertThat(condition1.getCurrentState()).isEqualTo(startState);
         assertThat(condition1.getTuringTape().getCharactersBehind()).isEmpty();
-        assertThat(condition1.getTuringTape().getCurrentPosition()).isEqualTo('A');
+        assertThat(condition1.getCurrentPosition()).isEqualTo('A');
         assertThat(condition1.getTuringTape().getCharactersAhead()).containsExactly('B', 'C');
 
         val condition2 = result.get(1);
         assertThat(condition2.getCurrentState()).isEqualTo(middleState1);
         assertThat(condition2.getTuringTape().getCharactersBehind()).containsExactly('X');
-        assertThat(condition2.getTuringTape().getCurrentPosition()).isEqualTo('B');
+        assertThat(condition2.getCurrentPosition()).isEqualTo('B');
         assertThat(condition2.getTuringTape().getCharactersAhead()).containsExactly('C');
 
         val condition3 = result.get(2);
         assertThat(condition3.getCurrentState()).isEqualTo(middleState1);
         assertThat(condition3.getTuringTape().getCharactersBehind()).containsExactly('X', 'X');
-        assertThat(condition3.getTuringTape().getCurrentPosition()).isEqualTo('C');
+        assertThat(condition3.getCurrentPosition()).isEqualTo('C');
         assertThat(condition3.getTuringTape().getCharactersAhead()).isEmpty();
 
         val condition4 = result.get(3);
         assertThat(condition4.getCurrentState()).isEqualTo(middleState1);
         assertThat(condition4.getTuringTape().getCharactersBehind()).containsExactly('X', 'X', 'X');
-        assertThat(condition4.getTuringTape().getCurrentPosition()).isEqualTo(Condition.EMPTY);
+        assertThat(condition4.getCurrentPosition()).isEqualTo(Condition.EMPTY);
         assertThat(condition4.getTuringTape().getCharactersAhead()).isEmpty();
 
         val condition5 = result.get(4);
         assertThat(condition5.getCurrentState()).isEqualTo(acceptState1);
         assertThat(condition5.getTuringTape().getCharactersBehind()).containsExactly('X', 'X', 'X');
-        assertThat(condition5.getTuringTape().getCurrentPosition()).isEqualTo(Condition.EMPTY);
+        assertThat(condition5.getCurrentPosition()).isEqualTo(Condition.EMPTY);
         assertThat(condition5.getTuringTape().getCharactersAhead()).isEmpty();
     }
 

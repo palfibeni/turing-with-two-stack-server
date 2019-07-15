@@ -1,7 +1,6 @@
 package com.palfib.turingWithTwoStack.calculator;
 
 import com.palfib.turingWithTwoStack.entity.*;
-import com.palfib.turingWithTwoStack.entity.enums.Direction;
 import lombok.val;
 import org.assertj.core.util.Sets;
 import org.junit.Test;
@@ -206,14 +205,14 @@ public class TwoStackCalculatorTest {
                 .build();
     }
 
-    private TwoStackRule createRule(final MachineState fromState, final Character readCharacter, final MachineState toState, final String writeLeft, final String writeRight, final boolean copyLeftToWrite) {
+    private TwoStackRule createRule(final MachineState fromState, final Character readCharacter, final MachineState toState, final String writeLeft, final String writeRight, final boolean copyLeftToRight) {
         return TwoStackRule.builder()
                 .fromState(fromState)
                 .readCharacter(readCharacter)
                 .toState(toState)
                 .writeLeft(writeLeft)
                 .writeRight(writeRight)
-                .copyLeftToWrite(copyLeftToWrite)
+                .copyLeftToRight(copyLeftToRight)
                 .build();
     }
 }
