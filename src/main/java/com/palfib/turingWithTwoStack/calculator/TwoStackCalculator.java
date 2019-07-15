@@ -8,6 +8,7 @@ public class TwoStackCalculator extends AbstractCalculator<TwoStackMachine, TwoS
         super(machine);
     }
 
+    @Override
     public TwoStackCondition initState(final MachineState startState, final String input) {
         return new TwoStackCondition(startState, input);
     }

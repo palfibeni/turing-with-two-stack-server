@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractCalculator <T extends Machine, C extends Condition>{
 
-    protected final T machine;
+    private final T machine;
 
     public AbstractCalculator(final T machine) {
         this.machine = machine;
@@ -46,7 +46,7 @@ public abstract class AbstractCalculator <T extends Machine, C extends Condition
 
     public abstract class AbstractCalculation extends Thread {
 
-        protected C condition;
+        C condition;
 
         @Getter
         private final List<C> acceptedCalculationConditions = new ArrayList<>();
@@ -56,17 +56,17 @@ public abstract class AbstractCalculator <T extends Machine, C extends Condition
         private int numberOfSteps;
 
 
-        public AbstractCalculation(final C condition, final int numberOfSteps) {
+        AbstractCalculation(final C condition, final int numberOfSteps) {
             this.condition = condition;
             this.numberOfSteps = numberOfSteps;
         }
 
         @Override
         public void run() {
-            takeAStep();
+            step();
         }
 
-        public void takeAStep() {
+        private void step() {
             // Adding the last state to the acceptedCalculationConditions
             this.acceptedCalculationConditions.add(condition);
 
@@ -87,7 +87,7 @@ public abstract class AbstractCalculator <T extends Machine, C extends Condition
                 final Rule rule = validRules.get(0);
                 this.condition = copyCondition(rule.getToState());
                 this.condition.useRule(rule);
-                takeAStep();
+                step();
             }
             if (validRules.size() > 1) {
                 handleNonDeterministicRules(validRules);
@@ -133,11 +133,11 @@ public abstract class AbstractCalculator <T extends Machine, C extends Condition
             }
         }
 
-        protected abstract C copyCondition(final MachineState nextState);
-
-        private boolean isValidRule(Rule rule, Character currentPosition, MachineState currentState) {
+        private boolean isValidRule(final Rule rule, final Character currentPosition, final MachineState currentState) {
             return rule.getFromState().equals(currentState)
                     && rule.getReadCharacter().equals(currentPosition);
         }
+
+        protected abstract C copyCondition(final MachineState nextState);
     }
 }

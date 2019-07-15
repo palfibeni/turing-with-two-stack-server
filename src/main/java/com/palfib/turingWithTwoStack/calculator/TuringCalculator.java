@@ -8,6 +8,7 @@ public class TuringCalculator extends AbstractCalculator<TuringMachine, TuringCo
         super(machine);
     }
 
+    @Override
     public TuringCondition initState(final MachineState startState, final String input) {
         return new TuringCondition(startState, input);
     }

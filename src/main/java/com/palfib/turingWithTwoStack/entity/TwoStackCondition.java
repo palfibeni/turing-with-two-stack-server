@@ -23,7 +23,7 @@ public class TwoStackCondition extends Condition {
         }
     }
 
-    private void insertWordIntoStack(String word, Stack<Character> stack) {
+    private void insertWordIntoStack(final String word, final Stack<Character> stack) {
         word.chars()
                 .mapToObj(ch -> (char) ch)
                 .forEach(stack::push);
@@ -59,7 +59,7 @@ public class TwoStackCondition extends Condition {
         if (!leftStack.isEmpty() || !Condition.EMPTY_AS_STRING.equals(twoStackRule.getWriteLeft())) {
             insertWordIntoStack(twoStackRule.getWriteLeft(), this.leftStack);
         }
-        if (twoStackRule.isCopyLeftToWrite()) {
+        if (twoStackRule.isCopyLeftToRight()) {
             this.rightStack.push(this.leftStack.pop());
         }
     }
