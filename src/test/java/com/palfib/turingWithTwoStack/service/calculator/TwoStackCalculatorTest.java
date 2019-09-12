@@ -1,6 +1,9 @@
-package com.palfib.turingWithTwoStack.calculator;
+package com.palfib.turingWithTwoStack.service.calculator;
 
 import com.palfib.turingWithTwoStack.entity.*;
+import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackCondition;
+import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackMachine;
+import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackRule;
 import lombok.val;
 import org.assertj.core.util.Sets;
 import org.junit.Test;

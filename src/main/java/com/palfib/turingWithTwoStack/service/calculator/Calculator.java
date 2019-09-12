@@ -1,4 +1,4 @@
-package com.palfib.turingWithTwoStack.calculator;
+package com.palfib.turingWithTwoStack.service.calculator;
 
 import com.palfib.turingWithTwoStack.entity.*;
 import lombok.Getter;
@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class AbstractCalculator <T extends Machine, C extends Condition>{
+public abstract class Calculator<T extends Machine, C extends Condition>{
 
     private final T machine;
 
-    public AbstractCalculator(final T machine) {
+    Calculator(final T machine) {
         this.machine = machine;
     }
 
@@ -35,16 +35,16 @@ public abstract class AbstractCalculator <T extends Machine, C extends Condition
                 return calculation.getAcceptedCalculationConditions();
             }
         } catch (InterruptedException e) {
-            // Not handled
+            // TODO exception handling
         }
         return null;
     }
 
-    public abstract C initState(final MachineState startState, final String input);
+    protected abstract C initState(final MachineState startState, final String input);
 
-    public abstract AbstractCalculation createCalculation(final C nextCondition, int numberOfSteps);
+    protected abstract Calculation createCalculation(final C nextCondition, int numberOfSteps);
 
-    public abstract class AbstractCalculation extends Thread {
+    protected abstract class Calculation extends Thread {
 
         C condition;
 
@@ -56,7 +56,7 @@ public abstract class AbstractCalculator <T extends Machine, C extends Condition
         private int numberOfSteps;
 
 
-        AbstractCalculation(final C condition, final int numberOfSteps) {
+        Calculation(final C condition, final int numberOfSteps) {
             this.condition = condition;
             this.numberOfSteps = numberOfSteps;
         }
@@ -111,7 +111,7 @@ public abstract class AbstractCalculator <T extends Machine, C extends Condition
         }
 
         /**
-         * Opens a new AbstractCalculation for each valid rule
+         * Opens a new Calculation for each valid rule
          *
          * @param validRules: the list of valid rules
          */
@@ -128,8 +128,8 @@ public abstract class AbstractCalculator <T extends Machine, C extends Condition
                         this.acceptedCalculationConditions.addAll(calculation.acceptedCalculationConditions);
                     }
                 }
-            } catch (InterruptedException e) {
-                // Not handled
+            } catch (final InterruptedException e) {
+                // TODO exception handling
             }
         }
 

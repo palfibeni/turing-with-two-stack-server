@@ -1,7 +1,7 @@
-package com.palfib.turingWithTwoStack.converter;
+package com.palfib.turingWithTwoStack.service.converter;
 
-import com.palfib.turingWithTwoStack.entity.TuringMachine;
-import com.palfib.turingWithTwoStack.entity.TwoStackMachine;
+import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
+import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackMachine;
 
 public class TwoStackMachineConverter {
 

@@ -1,21 +1,23 @@
-package com.palfib.turingWithTwoStack.converter;
+package com.palfib.turingWithTwoStack.service.converter;
 
 import com.palfib.turingWithTwoStack.dto.TuringRuleDto;
 import com.palfib.turingWithTwoStack.entity.MachineState;
 import com.palfib.turingWithTwoStack.entity.enums.Direction;
-import com.palfib.turingWithTwoStack.entity.TuringRule;
+import com.palfib.turingWithTwoStack.entity.turing.TuringRule;
 
 import java.util.List;
+import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 public class TuringRuleConverter {
 
-    public static List<TuringRule> fromDtos(final List<TuringRuleDto> dtos, final List<MachineState> states) {
-        return dtos.stream().map(dto -> TuringRuleConverter.fromDto(dto, states)).collect(toList());
+    public static Set<TuringRule> fromDtos(final Set<TuringRuleDto> dtos, final Set<MachineState> states) {
+        return dtos.stream().map(dto -> TuringRuleConverter.fromDto(dto, states)).collect(toSet());
     }
 
-    public static TuringRule fromDto(final TuringRuleDto dto, final List<MachineState> states) {
+    public static TuringRule fromDto(final TuringRuleDto dto, final Set<MachineState> states) {
         return TuringRule.builder()
                 .fromState(getStateFromDto(dto.getFromState(), states))
                 .toState(getStateFromDto(dto.getToState(), states))
@@ -25,15 +27,15 @@ public class TuringRuleConverter {
                 .build();
     }
 
-    private static MachineState getStateFromDto(final String dtoState, final List<MachineState> states) {
+    private static MachineState getStateFromDto(final String dtoState, final Set<MachineState> states) {
         return states.stream()
                 .filter(state -> state.getName().equals(dtoState))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("The from or to State cannot be empty"));
     }
 
-    public static List<TuringRuleDto> toDtos(final List<TuringRule> entities) {
-        return entities.stream().map(TuringRuleConverter::toDto).collect(toList());
+    public static Set<TuringRuleDto> toDtos(final Set<TuringRule> entities) {
+        return entities.stream().map(TuringRuleConverter::toDto).collect(toSet());
     }
 
     public static TuringRuleDto toDto(final TuringRule entity) {

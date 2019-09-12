@@ -1,6 +1,6 @@
-package com.palfib.turingWithTwoStack.converter;
+package com.palfib.turingWithTwoStack.service.converter;
 
-import com.palfib.turingWithTwoStack.entity.TuringMachine;
+import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
 import com.palfib.turingWithTwoStack.dto.TuringMachineDto;
 import lombok.val;
 
@@ -26,6 +26,7 @@ public class TuringMachineConverter {
                 .startState(startState)
                 .acceptStates(acceptStates)
                 .declineStates(declineState)
+                .rules(TuringRuleConverter.fromDtos(dto.getRules(), states))
                 .build();
     }
 

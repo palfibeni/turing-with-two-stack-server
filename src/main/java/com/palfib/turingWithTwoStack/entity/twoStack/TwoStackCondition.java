@@ -1,8 +1,14 @@
-package com.palfib.turingWithTwoStack.entity;
+package com.palfib.turingWithTwoStack.entity.twoStack;
 
+import com.palfib.turingWithTwoStack.entity.Condition;
+import com.palfib.turingWithTwoStack.entity.MachineState;
+import com.palfib.turingWithTwoStack.entity.Rule;
 import lombok.Getter;
 import lombok.val;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -62,5 +68,22 @@ public class TwoStackCondition extends Condition {
             val topOfLeftStack = (this.leftStack.isEmpty() ? Condition.EMPTY : this.leftStack.pop()).toString();
             insertWordIntoStack(topOfLeftStack, this.rightStack);
         }
+    }
+
+
+    public List<Character> getCharactersAhead() {
+        if (this.rightStack.isEmpty()) {
+            return Collections.emptyList();
+        }
+        val charactersAhead = new ArrayList<>(rightStack);
+        charactersAhead.remove(0);
+        return charactersAhead;
+    }
+
+    public List<Character> getCharactersBehind() {
+        if (this.leftStack.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return new ArrayList<>(this.leftStack);
     }
 }

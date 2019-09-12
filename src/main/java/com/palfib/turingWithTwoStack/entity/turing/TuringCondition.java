@@ -1,8 +1,13 @@
-package com.palfib.turingWithTwoStack.entity;
+package com.palfib.turingWithTwoStack.entity.turing;
 
-import com.palfib.turingWithTwoStack.entity.enums.Direction;
+import com.palfib.turingWithTwoStack.entity.Condition;
+import com.palfib.turingWithTwoStack.entity.MachineState;
+import com.palfib.turingWithTwoStack.entity.Rule;
 import lombok.Getter;
 import lombok.val;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 public class TuringCondition extends Condition {
@@ -49,5 +54,13 @@ public class TuringCondition extends Condition {
             default:
                 throw new IllegalStateException("Not known direction: " + direction);
         }
+    }
+
+    public List<Character> getCharactersAhead() {
+        return new ArrayList<>(this.turingTape.getCharactersAhead());
+    }
+
+    public List<Character> getCharactersBehind() {
+        return new ArrayList<>(this.turingTape.getCharactersBehind());
     }
 }

@@ -1,7 +1,7 @@
-package com.palfib.turingWithTwoStack.converter;
+package com.palfib.turingWithTwoStack.service.converter;
 
-import com.palfib.turingWithTwoStack.entity.TwoStackRule;
-import com.palfib.turingWithTwoStack.entity.TuringRule;
+import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackRule;
+import com.palfib.turingWithTwoStack.entity.turing.TuringRule;
 import com.palfib.turingWithTwoStack.entity.enums.Direction;
 
 import java.util.Set;

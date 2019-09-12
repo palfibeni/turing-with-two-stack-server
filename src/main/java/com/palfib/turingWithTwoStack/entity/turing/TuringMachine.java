@@ -1,5 +1,7 @@
-package com.palfib.turingWithTwoStack.entity;
+package com.palfib.turingWithTwoStack.entity.turing;
 
+import com.palfib.turingWithTwoStack.entity.Machine;
+import com.palfib.turingWithTwoStack.entity.MachineState;
 import lombok.Builder;
 import lombok.Data;
 

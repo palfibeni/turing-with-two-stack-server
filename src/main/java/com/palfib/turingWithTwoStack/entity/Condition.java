@@ -3,6 +3,8 @@ package com.palfib.turingWithTwoStack.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 public abstract class Condition {
@@ -15,4 +17,8 @@ public abstract class Condition {
     public abstract Character getCurrentPosition();
 
     public abstract void useRule(final Rule rule);
+
+    public abstract List<Character> getCharactersAhead();
+
+    public abstract List<Character> getCharactersBehind();
 }

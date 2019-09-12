@@ -1,24 +1,26 @@
-package com.palfib.turingWithTwoStack.calculator;
+package com.palfib.turingWithTwoStack.service.calculator;
 
 import com.palfib.turingWithTwoStack.entity.*;
+import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackCondition;
+import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackMachine;
 
-public class TwoStackCalculator extends AbstractCalculator<TwoStackMachine, TwoStackCondition> {
+public class TwoStackCalculator extends Calculator<TwoStackMachine, TwoStackCondition> {
 
     public TwoStackCalculator(final TwoStackMachine machine) {
         super(machine);
     }
 
     @Override
-    public TwoStackCondition initState(final MachineState startState, final String input) {
+    protected TwoStackCondition initState(final MachineState startState, final String input) {
         return new TwoStackCondition(startState, input);
     }
 
     @Override
-    public AbstractCalculation createCalculation(final TwoStackCondition nextCondition, final int numberOfSteps) {
+    protected Calculation createCalculation(final TwoStackCondition nextCondition, final int numberOfSteps) {
         return new TwoStackCalculation(nextCondition, numberOfSteps);
     }
 
-    public class TwoStackCalculation extends AbstractCalculation {
+    private class TwoStackCalculation extends Calculation {
 
         private TwoStackCalculation(final TwoStackCondition condition, final int numberOfSteps) {
             super(condition, numberOfSteps);

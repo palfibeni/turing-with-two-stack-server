@@ -22,6 +22,8 @@ public class TuringMachineDto {
 
     private Set<String> declineStates;
 
+    private Set<TuringRuleDto> rules;
+
     @JsonPOJOBuilder(withPrefix = "")
     public static class TuringMachineDtoBuilder {
     }

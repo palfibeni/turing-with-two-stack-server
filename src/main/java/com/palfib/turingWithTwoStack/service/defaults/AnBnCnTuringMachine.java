@@ -1,9 +1,9 @@
-package com.palfib.turingWithTwoStack.defaults;
+package com.palfib.turingWithTwoStack.service.defaults;
 
 import com.palfib.turingWithTwoStack.entity.Condition;
 import com.palfib.turingWithTwoStack.entity.MachineState;
-import com.palfib.turingWithTwoStack.entity.TuringMachine;
-import com.palfib.turingWithTwoStack.entity.TuringRule;
+import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
+import com.palfib.turingWithTwoStack.entity.turing.TuringRule;
 import com.palfib.turingWithTwoStack.entity.enums.Direction;
 import lombok.val;
 

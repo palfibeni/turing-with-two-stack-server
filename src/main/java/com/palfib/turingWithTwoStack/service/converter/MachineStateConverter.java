@@ -1,4 +1,4 @@
-package com.palfib.turingWithTwoStack.converter;
+package com.palfib.turingWithTwoStack.service.converter;
 
 import com.palfib.turingWithTwoStack.entity.MachineState;
 

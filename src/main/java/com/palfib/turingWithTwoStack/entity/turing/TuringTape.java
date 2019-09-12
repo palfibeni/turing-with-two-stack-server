@@ -1,6 +1,6 @@
-package com.palfib.turingWithTwoStack.entity;
+package com.palfib.turingWithTwoStack.entity.turing;
 
-import com.palfib.turingWithTwoStack.entity.enums.Direction;
+import com.palfib.turingWithTwoStack.entity.Condition;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
