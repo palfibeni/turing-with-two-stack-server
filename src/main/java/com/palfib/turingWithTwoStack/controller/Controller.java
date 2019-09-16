@@ -14,7 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.constraints.NotBlank;
 
-
+@CrossOrigin
 @RequestMapping("/api")
 @RestController
 public class Controller {
@@ -25,7 +25,7 @@ public class Controller {
         this.calculationService = calculationService;
     }
 
-    @RequestMapping(path = "/calculate", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(path = "/calculate", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<CalculationDto> calculate(
             final @RequestParam(name = "turingMachine") @NotBlank TuringMachineDto turingMachine,
             final @RequestParam(name = "input") @NotBlank String input) {
@@ -36,7 +36,7 @@ public class Controller {
         }
     }
 
-    @RequestMapping(path = "/getAnBnCnTuringMachine", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(path = "/AnBnCnTuringMachine", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<TuringMachineDto> getAnBnCnTuringMachne() {
         return ResponseEntity.ok(TuringMachineConverter.toDto(AnBnCnTuringMachine.createAnBnCnMachine()));
     }
