@@ -1,6 +1,7 @@
 package com.palfib.turingWithTwoStack.service.calculator;
 
-import com.palfib.turingWithTwoStack.entity.*;
+import com.palfib.turingWithTwoStack.entity.Condition;
+import com.palfib.turingWithTwoStack.entity.MachineState;
 import com.palfib.turingWithTwoStack.entity.enums.Direction;
 import com.palfib.turingWithTwoStack.entity.turing.TuringCondition;
 import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
@@ -9,8 +10,11 @@ import lombok.val;
 import org.assertj.core.util.Sets;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
+import static java.util.Collections.emptySet;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TuringCalculatorTest {
@@ -35,7 +39,7 @@ public class TuringCalculatorTest {
     @Test
     public void acceptLinearAtStart() {
         val acceptStart = createState("START", true, true, false);
-        this.turingMachine = createTuringMachine(Sets.newHashSet(), Sets.newLinkedHashSet(acceptStart));
+        this.turingMachine = createTuringMachine(emptySet(), Sets.newLinkedHashSet(acceptStart));
 
         final List<TuringCondition> result = new TuringCalculator(turingMachine).calculate("ABC");
 

@@ -1,6 +1,6 @@
 package com.palfib.turingWithTwoStack.service.calculator;
 
-import com.palfib.turingWithTwoStack.entity.*;
+import com.palfib.turingWithTwoStack.entity.MachineState;
 import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackCondition;
 import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackMachine;
 

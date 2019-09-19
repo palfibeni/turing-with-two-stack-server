@@ -1,17 +1,17 @@
 package com.palfib.turingWithTwoStack.service;
 
-import com.palfib.turingWithTwoStack.exception.ValidationException;
-import com.palfib.turingWithTwoStack.service.calculator.TuringCalculator;
-import com.palfib.turingWithTwoStack.service.calculator.TwoStackCalculator;
-import com.palfib.turingWithTwoStack.service.converter.ConditionConverter;
-import com.palfib.turingWithTwoStack.service.converter.TuringMachineConverter;
-import com.palfib.turingWithTwoStack.service.converter.TwoStackMachineConverter;
 import com.palfib.turingWithTwoStack.dto.CalculationDto;
 import com.palfib.turingWithTwoStack.dto.TuringMachineDto;
 import com.palfib.turingWithTwoStack.entity.turing.TuringCondition;
 import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
 import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackCondition;
 import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackMachine;
+import com.palfib.turingWithTwoStack.exception.ValidationException;
+import com.palfib.turingWithTwoStack.service.calculator.TuringCalculator;
+import com.palfib.turingWithTwoStack.service.calculator.TwoStackCalculator;
+import com.palfib.turingWithTwoStack.service.converter.ConditionConverter;
+import com.palfib.turingWithTwoStack.service.converter.TuringMachineConverter;
+import com.palfib.turingWithTwoStack.service.converter.TwoStackMachineConverter;
 import com.palfib.turingWithTwoStack.service.validator.CalculationValidator;
 import lombok.val;
 import org.springframework.stereotype.Service;

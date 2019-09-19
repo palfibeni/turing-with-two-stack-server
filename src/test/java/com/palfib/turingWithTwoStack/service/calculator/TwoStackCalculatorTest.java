@@ -1,6 +1,7 @@
 package com.palfib.turingWithTwoStack.service.calculator;
 
-import com.palfib.turingWithTwoStack.entity.*;
+import com.palfib.turingWithTwoStack.entity.Condition;
+import com.palfib.turingWithTwoStack.entity.MachineState;
 import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackCondition;
 import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackMachine;
 import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackRule;
@@ -12,7 +13,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import static java.util.Collections.emptySet;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Sets.newHashSet;
 
 public class TwoStackCalculatorTest {
 
@@ -36,7 +39,7 @@ public class TwoStackCalculatorTest {
     @Test
     public void acceptLinearAtStart() {
         val acceptStart = createState("START", true, true, false);
-        this.twoStackMachine = createTwoStackMachine(Sets.newHashSet(), Sets.newLinkedHashSet(acceptStart));
+        this.twoStackMachine = createTwoStackMachine(newHashSet(), Sets.newLinkedHashSet(acceptStart));
 
         final List<TwoStackCondition> result = new TwoStackCalculator(twoStackMachine).calculate("ABC");
 
@@ -52,7 +55,7 @@ public class TwoStackCalculatorTest {
     @Test
     public void declineLinearAtStart() {
         val declineStart = createState("START", true, false, true);
-        this.twoStackMachine = createTwoStackMachine(Sets.newHashSet(), Sets.newLinkedHashSet(declineStart));
+        this.twoStackMachine = createTwoStackMachine(emptySet(), Sets.newLinkedHashSet(declineStart));
 
         final List<TwoStackCondition> result = new TwoStackCalculator(twoStackMachine).calculate("ABC");
 

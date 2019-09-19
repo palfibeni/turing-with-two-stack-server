@@ -1,9 +1,9 @@
 package com.palfib.turingWithTwoStack.service.defaults;
 
-import com.palfib.turingWithTwoStack.service.calculator.TuringCalculator;
 import com.palfib.turingWithTwoStack.entity.Condition;
 import com.palfib.turingWithTwoStack.entity.turing.TuringCondition;
 import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
+import com.palfib.turingWithTwoStack.service.calculator.TuringCalculator;
 import lombok.val;
 import org.junit.Test;
 

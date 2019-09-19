@@ -1,12 +1,11 @@
 package com.palfib.turingWithTwoStack.service.converter;
 
-import com.palfib.turingWithTwoStack.service.calculator.TwoStackCalculator;
-import com.palfib.turingWithTwoStack.service.defaults.AnBnCnTuringMachine;
 import com.palfib.turingWithTwoStack.entity.Condition;
 import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackMachine;
+import com.palfib.turingWithTwoStack.service.calculator.TwoStackCalculator;
+import com.palfib.turingWithTwoStack.service.defaults.AnBnCnTuringMachine;
 import lombok.val;
 import org.junit.Test;
-
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -1,6 +1,9 @@
 package com.palfib.turingWithTwoStack.service.calculator;
 
-import com.palfib.turingWithTwoStack.entity.*;
+import com.palfib.turingWithTwoStack.entity.Condition;
+import com.palfib.turingWithTwoStack.entity.Machine;
+import com.palfib.turingWithTwoStack.entity.MachineState;
+import com.palfib.turingWithTwoStack.entity.Rule;
 import lombok.Getter;
 import lombok.val;
 

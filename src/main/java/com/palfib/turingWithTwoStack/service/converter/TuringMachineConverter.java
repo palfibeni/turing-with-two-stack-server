@@ -1,7 +1,7 @@
 package com.palfib.turingWithTwoStack.service.converter;
 
-import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
 import com.palfib.turingWithTwoStack.dto.TuringMachineDto;
+import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
 import lombok.val;
 
 public class TuringMachineConverter {
