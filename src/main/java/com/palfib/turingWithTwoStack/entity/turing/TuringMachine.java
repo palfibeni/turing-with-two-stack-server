@@ -11,9 +11,8 @@ import java.util.Set;
 public class TuringMachine extends Machine<TuringRule> {
 
     @Builder
-    public TuringMachine(final Set<Character> inputCharacters, final Set<MachineState> states,
-                         final MachineState startState, final Set<MachineState> acceptStates,
-                         final Set<MachineState> declineStates, final Set<TuringRule> rules) {
-        super(inputCharacters, states, startState, acceptStates, declineStates, rules);
+    public TuringMachine(
+            final Set<Character> inputCharacters, final Set<MachineState> states, final Set<TuringRule> rules) {
+        super(inputCharacters, states, rules);
     }
 }

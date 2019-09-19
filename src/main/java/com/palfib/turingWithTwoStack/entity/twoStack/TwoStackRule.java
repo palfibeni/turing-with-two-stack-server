@@ -18,9 +18,9 @@ public class TwoStackRule extends Rule {
     private boolean copyLeftToRight;
 
     @Builder
-    public TwoStackRule(final MachineState fromState, final Character readCharacter, final MachineState toState,
+    public TwoStackRule(final Long id, final MachineState fromState, final Character readCharacter, final MachineState toState,
                         final String writeLeft, final String writeRight, final boolean copyLeftToRight) {
-        super(fromState, readCharacter, toState);
+        super(id, fromState, readCharacter, toState);
         this.writeLeft = writeLeft;
         this.writeRight = writeRight;
         this.copyLeftToRight = copyLeftToRight;

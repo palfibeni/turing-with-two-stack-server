@@ -9,9 +9,6 @@ public class TwoStackMachineConverter {
         return TwoStackMachine.builder()
                 .inputCharacters(turingMachine.getInputCharacters())
                 .states(turingMachine.getStates())
-                .startState(turingMachine.getStartState())
-                .acceptStates(turingMachine.getAcceptStates())
-                .declineStates(turingMachine.getDeclineStates())
                 .rules(TwoStackRuleConverter.fromTuringRules(turingMachine.getRules()))
                 .build();
     }

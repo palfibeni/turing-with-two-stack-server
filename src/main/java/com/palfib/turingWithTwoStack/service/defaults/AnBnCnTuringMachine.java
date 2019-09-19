@@ -12,30 +12,40 @@ import java.util.Set;
 
 public class AnBnCnTuringMachine {
 
-    public static final MachineState AT_FIRST_A = new MachineState("A_TO_X");
-    public static final MachineState ACCEPT = new MachineState("ACCEPT");
-    public static final MachineState DECLINE = new MachineState("DECLINE");
-    public static final MachineState FORWARD_TO_B = new MachineState("FORWARD_TO_B");
-    public static final MachineState BACK_TO_LAST_C = new MachineState("BACK_TO_LAST_C");
-    public static final MachineState DELETE_C = new MachineState("DELETE_C");
-    public static final MachineState CHECK_FOR_C = new MachineState("CHECK_FOR_C");
-    public static final MachineState FORWARD_TO_C_END = new MachineState("FORWARD_TO_C_END");
-    public static final MachineState BACK_TO_FIRST_A_FROM_C = new MachineState("BACK_TO_FIRST_A_FROM_C");
-    public static final MachineState BACK_TO_FIRST_A_FROM_B = new MachineState("BACK_TO_FIRST_A_FROM_B");
-    public static final MachineState BACK_TO_FIRST_A_FROM_A = new MachineState("BACK_TO_FIRST_A_FROM_A");
-    public static final MachineState TEST_FOR_ANY_A_OR_B = new MachineState("TEST_FOR_ANY_A_OR_B");
+    public static Long stateId = 1L;
+    public static Long ruleId = 1L;
+    public static final MachineState AT_FIRST_A = AnBnCnTuringMachine.createState("A_TO_X", true, false, false);
+    public static final MachineState ACCEPT = AnBnCnTuringMachine.createState("ACCEPT", false, true, false);
+    public static final MachineState DECLINE = AnBnCnTuringMachine.createState("DECLINE", false, false, true);
+    public static final MachineState FORWARD_TO_B = AnBnCnTuringMachine.createState("FORWARD_TO_B");
+    public static final MachineState BACK_TO_LAST_C = AnBnCnTuringMachine.createState("BACK_TO_LAST_C");
+    public static final MachineState DELETE_C = AnBnCnTuringMachine.createState("DELETE_C");
+    public static final MachineState CHECK_FOR_C = AnBnCnTuringMachine.createState("CHECK_FOR_C");
+    public static final MachineState FORWARD_TO_C_END = AnBnCnTuringMachine.createState("FORWARD_TO_C_END");
+    public static final MachineState BACK_TO_FIRST_A_FROM_C = AnBnCnTuringMachine.createState("BACK_TO_FIRST_A_FROM_C");
+    public static final MachineState BACK_TO_FIRST_A_FROM_B = AnBnCnTuringMachine.createState("BACK_TO_FIRST_A_FROM_B");
+    public static final MachineState BACK_TO_FIRST_A_FROM_A = AnBnCnTuringMachine.createState("BACK_TO_FIRST_A_FROM_A");
+    public static final MachineState TEST_FOR_ANY_A_OR_B = AnBnCnTuringMachine.createState("TEST_FOR_ANY_A_OR_B");
+
+    private static MachineState createState(final String name) {
+        return AnBnCnTuringMachine.createState(name, false, false, false);
+    }
+
+    private static MachineState createState(
+            final String name, final boolean isStart, final boolean isAccept, final boolean isDecline) {
+        return MachineState.builder()
+                .id(stateId++)
+                .name(name)
+                .start(isStart)
+                .accept(isAccept)
+                .decline(isDecline)
+                .build();
+    }
 
     public static TuringMachine createAnBnCnMachine() {
-        val acceptStates = new HashSet<MachineState>();
-        acceptStates.add(ACCEPT);
-        val declineStates = new HashSet<MachineState>();
-        declineStates.add(DECLINE);
         return TuringMachine.builder()
                 .inputCharacters(getCharacters())
                 .states(getStates())
-                .startState(AT_FIRST_A)
-                .acceptStates(acceptStates)
-                .declineStates(declineStates)
                 .rules(getRules())
                 .build();
     }
@@ -107,8 +117,9 @@ public class AnBnCnTuringMachine {
     }
 
     private static TuringRule createRule(final MachineState fromState, final Character readCharacter,
-                                  final Direction direction, final MachineState toState, final Character writeCharacter) {
+                                         final Direction direction, final MachineState toState, final Character writeCharacter) {
         return TuringRule.builder()
+                .id(ruleId++)
                 .fromState(fromState)
                 .readCharacter(readCharacter)
                 .direction(direction)

@@ -8,7 +8,6 @@ import lombok.val;
 import org.assertj.core.util.Sets;
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,13 +18,13 @@ public class TwoStackCalculatorTest {
 
     private final Set<Character> characters = Sets.newLinkedHashSet('A', 'B', 'C');
 
-    private final MachineState startState = new MachineState("START");
-    private final MachineState middleState1 = new MachineState("MIDDLE1");
-    private final MachineState middleState2 = new MachineState("MIDDLE2");
-    private final MachineState acceptState1 = new MachineState("ACCEPT1");
-    private final MachineState acceptState2 = new MachineState("ACCEPT2");
-    private final MachineState declineState1 = new MachineState("DECLINE1");
-    private final MachineState declineState2 = new MachineState("DECLINE2");
+    private final MachineState startState = createState("START", true, false, false);
+    private final MachineState middleState1 = createState("MIDDLE1");
+    private final MachineState middleState2 = createState("MIDDLE2");
+    private final MachineState acceptState1 = createState("ACCEPT1", false, true, false);
+    private final MachineState acceptState2 = createState("ACCEPT2", false, true, false);
+    private final MachineState declineState1 = createState("DECLINE1", false, false, true);
+    private final MachineState declineState2 = createState("DECLINE2", false, false, true);
 
     private final Set<MachineState> states = Sets.newLinkedHashSet(startState,
             middleState1, middleState2,
@@ -36,14 +35,15 @@ public class TwoStackCalculatorTest {
 
     @Test
     public void acceptLinearAtStart() {
-        this.twoStackMachine = createTwoStackMachine(Collections.singleton(startState), Sets.newHashSet(), Sets.newHashSet());
+        val acceptStart = createState("START", true, true, false);
+        this.twoStackMachine = createTwoStackMachine(Sets.newHashSet(), Sets.newLinkedHashSet(acceptStart));
 
         final List<TwoStackCondition> result = new TwoStackCalculator(twoStackMachine).calculate("ABC");
 
         assertThat(result.size()).isEqualTo(1);
 
         val condition = result.get(0);
-        assertThat(condition.getCurrentState()).isEqualTo(startState);
+        assertThat(condition.getCurrentState()).isEqualTo(acceptStart);
         assertThat(condition.getLeftStack()).isEmpty();
         assertThat(condition.getCurrentPosition()).isEqualTo('A');
         assertThat(condition.getRightStack()).containsExactly('C', 'B', 'A');
@@ -51,7 +51,8 @@ public class TwoStackCalculatorTest {
 
     @Test
     public void declineLinearAtStart() {
-        this.twoStackMachine = createTwoStackMachine(Sets.newHashSet(), Collections.singleton(startState), Sets.newHashSet());
+        val declineStart = createState("START", true, false, true);
+        this.twoStackMachine = createTwoStackMachine(Sets.newHashSet(), Sets.newLinkedHashSet(declineStart));
 
         final List<TwoStackCondition> result = new TwoStackCalculator(twoStackMachine).calculate("ABC");
 
@@ -62,7 +63,7 @@ public class TwoStackCalculatorTest {
     public void acceptLinearWithOneStep() {
         final LinkedHashSet<TwoStackRule> rules = Sets.newLinkedHashSet(
                 createRule(startState, 'A', acceptState1, "X", "", false));
-        this.twoStackMachine = createTwoStackMachine(Collections.singleton(acceptState1), Sets.newHashSet(), rules);
+        this.twoStackMachine = createTwoStackMachine(rules);
 
         final List<TwoStackCondition> result = new TwoStackCalculator(twoStackMachine).calculate("ABC");
 
@@ -85,7 +86,7 @@ public class TwoStackCalculatorTest {
     public void declineLinearWithOneStep() {
         final LinkedHashSet<TwoStackRule> rules = Sets.newLinkedHashSet(
                 createRule(startState, 'A', declineState1, "X", "", false));
-        this.twoStackMachine = createTwoStackMachine(Sets.newHashSet(), Collections.singleton(declineState1), rules);
+        this.twoStackMachine = createTwoStackMachine(rules);
 
         final List<TwoStackCondition> result = new TwoStackCalculator(twoStackMachine).calculate("ABC");
 
@@ -100,7 +101,7 @@ public class TwoStackCalculatorTest {
                 createRule(middleState1, 'B', middleState1, "X", "", false),
                 createRule(middleState1, 'C', middleState1, "X", "", false),
                 createRule(middleState1, Condition.EMPTY, acceptState1, "", Condition.EMPTY_AS_STRING, false));
-        this.twoStackMachine = createTwoStackMachine(Collections.singleton(acceptState1), Sets.newHashSet(), rules);
+        this.twoStackMachine = createTwoStackMachine(rules);
 
         final List<TwoStackCondition> result = new TwoStackCalculator(twoStackMachine).calculate("ABC");
 
@@ -149,7 +150,7 @@ public class TwoStackCalculatorTest {
                 createRule(middleState1, Condition.EMPTY, acceptState1, "", Condition.EMPTY_AS_STRING, false),
                 createRule(middleState2, Condition.EMPTY, declineState1, "", Condition.EMPTY_AS_STRING, false)
         );
-        this.twoStackMachine = createTwoStackMachine(Collections.singleton(acceptState1), Collections.singleton(declineState1), rules);
+        this.twoStackMachine = createTwoStackMachine(rules);
 
         final List<TwoStackCondition> result = new TwoStackCalculator(twoStackMachine).calculate("ABC");
 
@@ -190,20 +191,34 @@ public class TwoStackCalculatorTest {
     public void declineAfterMaximumStepsReached() {
         final LinkedHashSet<TwoStackRule> rules = Sets.newLinkedHashSet(
                 createRule(startState, 'A', startState, "", "A", false));
-        this.twoStackMachine = createTwoStackMachine(Sets.newHashSet(), Sets.newHashSet(), rules);
+        this.twoStackMachine = createTwoStackMachine(rules);
 
         final List<TwoStackCondition> result = new TwoStackCalculator(twoStackMachine).calculate("ABC");
 
         assertThat(result).isNull();
     }
+    private MachineState createState(final String name) {
+        return createState(name, false, false, false);
+    }
 
-    private TwoStackMachine createTwoStackMachine(final Set<MachineState> acceptStates, final Set<MachineState> declineStates, final Set<TwoStackRule> rules) {
+    private MachineState createState(
+            final String name, final boolean isStart, final boolean isAccept, final boolean isDecline) {
+        return MachineState.builder()
+                .name(name)
+                .start(isStart)
+                .accept(isAccept)
+                .decline(isDecline)
+                .build();
+    }
+
+    private TwoStackMachine createTwoStackMachine(final Set<TwoStackRule> rules) {
+        return createTwoStackMachine(rules, states);
+    }
+
+    private TwoStackMachine createTwoStackMachine(final Set<TwoStackRule> rules, final Set<MachineState> states) {
         return TwoStackMachine.builder()
                 .inputCharacters(characters)
                 .states(states)
-                .startState(startState)
-                .acceptStates(acceptStates)
-                .declineStates(declineStates)
                 .rules(rules)
                 .build();
     }

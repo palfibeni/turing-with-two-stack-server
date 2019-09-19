@@ -7,23 +7,21 @@ import lombok.Getter;
 
 @Getter
 @Builder
-@JsonDeserialize(builder = TuringRuleDto.TuringRuleDtoBuilder.class)
-public class TuringRuleDto {
+@JsonDeserialize(builder = MachineStateDto.MachineStateDtoBuilder.class)
+public class MachineStateDto {
 
     private Long id;
 
-    private Long fromState;
+    private String name;
 
-    private Character readCharacter;
+    private boolean start;
 
-    private Long toState;
+    private boolean accept;
 
-    private Character writeCharacter;
+    private boolean decline;
 
-    private String direction;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class TuringRuleDtoBuilder{
-
+    public static class MachineStateDtoBuilder {
     }
 }

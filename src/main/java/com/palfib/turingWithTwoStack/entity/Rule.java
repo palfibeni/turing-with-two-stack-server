@@ -9,6 +9,8 @@ import lombok.Getter;
 @EqualsAndHashCode
 public abstract class Rule {
 
+    private Long id;
+
     private MachineState fromState;
 
     private Character readCharacter;

@@ -1,5 +1,6 @@
 package com.palfib.turingWithTwoStack.service.validator;
 
+import com.palfib.turingWithTwoStack.dto.MachineStateDto;
 import com.palfib.turingWithTwoStack.dto.TuringMachineDto;
 import com.palfib.turingWithTwoStack.dto.TuringRuleDto;
 import com.palfib.turingWithTwoStack.exception.ValidationException;
@@ -53,27 +54,22 @@ public class CalculationValidator {
 
     private void validateStates(final TuringMachineDto turingMachineDto, final List<String> errors) {
         val states = turingMachineDto.getStates();
-        val unknownAcceptStates = turingMachineDto.getAcceptStates().stream().filter(state -> states.contains(state)).collect(toSet());
-        if (!unknownAcceptStates.isEmpty()) {
-            errors.add(String.format("There is unknown states in acceptStates: %s\n", unknownAcceptStates.toString()));
-        }
-        val unknownDeclineStates = turingMachineDto.getDeclineStates().stream().filter(state -> states.contains(state)).collect(toSet());
-        if (!unknownDeclineStates.isEmpty()) {
-            errors.add(String.format("There is unknown states in declineStates: %s\n", unknownDeclineStates.toString()));
+        if (states.stream().noneMatch(MachineStateDto::isStart)) {
+            errors.add("There is no start state!\n");
         }
     }
 
     private void validateStatesInRules(final TuringMachineDto turingMachineDto, final List<String> errors) {
-        val states = turingMachineDto.getStates();
+        val states = turingMachineDto.getStates().stream().map(MachineStateDto::getId).collect(toSet());
         val unknownFromStateStream = getUnknownStateStreamFromRule(turingMachineDto, states, TuringRuleDto::getFromState);
         val unknownToStateStream = getUnknownStateStreamFromRule(turingMachineDto, states, TuringRuleDto::getToState);
         val statesUnknown = Stream.concat(unknownFromStateStream, unknownToStateStream).collect(toSet());
         if (!statesUnknown.isEmpty()) {
-            errors.add(String.format("There is unknown states in some rules: %s\n", statesUnknown.toString()));
+            errors.add(String.format("There is unknown state ids in some rules: %s\n", statesUnknown.toString()));
         }
     }
 
-    private Stream<String> getUnknownStateStreamFromRule(final TuringMachineDto turingMachineDto, final Set<String> states, final Function<TuringRuleDto, String> getState) {
+    private Stream<Long> getUnknownStateStreamFromRule(final TuringMachineDto turingMachineDto, final Set<Long> states, final Function<TuringRuleDto, Long> getState) {
         return turingMachineDto.getRules().stream()
                 .filter(rule -> !states.contains(getState.apply(rule)))
                 .map(getState);

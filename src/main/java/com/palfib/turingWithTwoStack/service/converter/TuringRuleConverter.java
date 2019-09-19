@@ -5,20 +5,23 @@ import com.palfib.turingWithTwoStack.entity.MachineState;
 import com.palfib.turingWithTwoStack.entity.enums.Direction;
 import com.palfib.turingWithTwoStack.entity.turing.TuringRule;
 
-import java.util.List;
 import java.util.Set;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toSet;
 
 public class TuringRuleConverter {
 
+    private static Long ruleId = 1L;
+
     public static Set<TuringRule> fromDtos(final Set<TuringRuleDto> dtos, final Set<MachineState> states) {
+        ruleId = 1L;
         return dtos.stream().map(dto -> TuringRuleConverter.fromDto(dto, states)).collect(toSet());
     }
 
-    public static TuringRule fromDto(final TuringRuleDto dto, final Set<MachineState> states) {
+    private static TuringRule fromDto(final TuringRuleDto dto, final Set<MachineState> states) {
         return TuringRule.builder()
+                .id(ofNullable(dto.getId()).orElse(ruleId++))
                 .fromState(getStateFromDto(dto.getFromState(), states))
                 .toState(getStateFromDto(dto.getToState(), states))
                 .readCharacter(dto.getReadCharacter())
@@ -27,9 +30,9 @@ public class TuringRuleConverter {
                 .build();
     }
 
-    private static MachineState getStateFromDto(final String dtoState, final Set<MachineState> states) {
+    private static MachineState getStateFromDto(final Long stateId, final Set<MachineState> states) {
         return states.stream()
-                .filter(state -> state.getName().equals(dtoState))
+                .filter(state -> state.getId().equals(stateId))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("The from or to State cannot be empty"));
     }
@@ -38,10 +41,11 @@ public class TuringRuleConverter {
         return entities.stream().map(TuringRuleConverter::toDto).collect(toSet());
     }
 
-    public static TuringRuleDto toDto(final TuringRule entity) {
+    private static TuringRuleDto toDto(final TuringRule entity) {
         return TuringRuleDto.builder()
-                .fromState(entity.getFromState().getName())
-                .toState(entity.getToState().getName())
+                .id(entity.getId())
+                .fromState(entity.getFromState().getId())
+                .toState(entity.getToState().getId())
                 .readCharacter(entity.getReadCharacter())
                 .writeCharacter(entity.getWriteCharacter())
                 .direction(entity.getDirection().name())

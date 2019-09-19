@@ -17,9 +17,9 @@ public class TuringRule extends Rule {
     private Direction direction;
 
     @Builder
-    public TuringRule(final MachineState fromState, final Character readCharacter, final MachineState toState,
+    public TuringRule(final Long id, final MachineState fromState, final Character readCharacter, final MachineState toState,
                       final Character writeCharacter, final Direction direction) {
-        super(fromState, readCharacter, toState);
+        super(id, fromState, readCharacter, toState);
         this.writeCharacter = writeCharacter;
         this.direction = direction;
     }

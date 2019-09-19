@@ -37,7 +37,7 @@ public class Controller {
     }
 
     @GetMapping(path = "/AnBnCnTuringMachine", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<TuringMachineDto> getAnBnCnTuringMachne() {
+    public ResponseEntity<TuringMachineDto> getAnBnCnTuringMachine() {
         return ResponseEntity.ok(TuringMachineConverter.toDto(AnBnCnTuringMachine.createAnBnCnMachine()));
     }
 }

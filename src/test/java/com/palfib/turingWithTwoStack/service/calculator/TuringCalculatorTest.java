@@ -17,13 +17,13 @@ public class TuringCalculatorTest {
 
     private final Set<Character> characters = Sets.newLinkedHashSet('A', 'B', 'C');
 
-    private final MachineState startState = new MachineState("START");
-    private final MachineState middleState1 = new MachineState("MIDDLE1");
-    private final MachineState middleState2 = new MachineState("MIDDLE2");
-    private final MachineState acceptState1 = new MachineState("ACCEPT1");
-    private final MachineState acceptState2 = new MachineState("ACCEPT2");
-    private final MachineState declineState1 = new MachineState("DECLINE1");
-    private final MachineState declineState2 = new MachineState("DECLINE2");
+    private final MachineState startState = createState("START", true, false, false);
+    private final MachineState middleState1 = createState("MIDDLE1");
+    private final MachineState middleState2 = createState("MIDDLE2");
+    private final MachineState acceptState1 = createState("ACCEPT1", false, true, false);
+    private final MachineState acceptState2 = createState("ACCEPT2", false, true, false);
+    private final MachineState declineState1 = createState("DECLINE1", false, false, true);
+    private final MachineState declineState2 = createState("DECLINE2", false, false, true);
 
     private final Set<MachineState> states = Sets.newLinkedHashSet(startState,
             middleState1, middleState2,
@@ -34,14 +34,15 @@ public class TuringCalculatorTest {
 
     @Test
     public void acceptLinearAtStart() {
-        this.turingMachine = createTuringMachine(Collections.singleton(startState), Sets.newHashSet(), Sets.newHashSet());
+        val acceptStart = createState("START", true, true, false);
+        this.turingMachine = createTuringMachine(Sets.newHashSet(), Sets.newLinkedHashSet(acceptStart));
 
         final List<TuringCondition> result = new TuringCalculator(turingMachine).calculate("ABC");
 
         assertThat(result.size()).isEqualTo(1);
 
         val condition = result.get(0);
-        assertThat(condition.getCurrentState()).isEqualTo(startState);
+        assertThat(condition.getCurrentState()).isEqualTo(acceptStart);
         assertThat(condition.getTuringTape().getCharactersBehind()).isEmpty();
         assertThat(condition.getCurrentPosition()).isEqualTo('A');
         assertThat(condition.getTuringTape().getCharactersAhead()).containsExactly('B', 'C');
@@ -49,7 +50,8 @@ public class TuringCalculatorTest {
 
     @Test
     public void declineLinearAtStart() {
-        this.turingMachine = createTuringMachine(Sets.newHashSet(), Collections.singleton(startState), Sets.newHashSet());
+        val declineStart = createState("START", true, false, true);
+        this.turingMachine = createTuringMachine(Sets.newHashSet(), Sets.newLinkedHashSet(declineStart));
 
         final List<TuringCondition> result = new TuringCalculator(turingMachine).calculate("ABC");
 
@@ -60,7 +62,7 @@ public class TuringCalculatorTest {
     public void acceptLinearWithOneStep() {
         final LinkedHashSet<TuringRule> rules = Sets.newLinkedHashSet(
                 createRule(startState, 'A', Direction.STAY, acceptState1, 'X'));
-        this.turingMachine = createTuringMachine(Collections.singleton(acceptState1), Sets.newHashSet(), rules);
+        this.turingMachine = createTuringMachine(rules);
 
         final List<TuringCondition> result = new TuringCalculator(turingMachine).calculate("ABC");
 
@@ -83,7 +85,7 @@ public class TuringCalculatorTest {
     public void declineLinearWithOneStep() {
         final LinkedHashSet<TuringRule> rules = Sets.newLinkedHashSet(
                 createRule(startState, 'A', Direction.STAY, declineState1, 'X'));
-        this.turingMachine = createTuringMachine(Sets.newHashSet(), Collections.singleton(declineState1), rules);
+        this.turingMachine = createTuringMachine(rules);
 
         final List<TuringCondition> result = new TuringCalculator(turingMachine).calculate("ABC");
 
@@ -98,7 +100,7 @@ public class TuringCalculatorTest {
                 createRule(middleState1, 'B', Direction.FORWARD, middleState1, 'X'),
                 createRule(middleState1, 'C', Direction.FORWARD, middleState1, 'X'),
                 createRule(middleState1, Condition.EMPTY, Direction.STAY, acceptState1, Condition.EMPTY));
-        this.turingMachine = createTuringMachine(Collections.singleton(acceptState1), Sets.newHashSet(), rules);
+        this.turingMachine = createTuringMachine(rules);
 
         final List<TuringCondition> result = new TuringCalculator(turingMachine).calculate("ABC");
 
@@ -146,7 +148,7 @@ public class TuringCalculatorTest {
                 createRule(middleState2, 'C', Direction.FORWARD, middleState2, 'X'),
                 createRule(middleState1, Condition.EMPTY, Direction.STAY, acceptState1, Condition.EMPTY),
                 createRule(middleState2, Condition.EMPTY, Direction.STAY, declineState1, Condition.EMPTY));
-        this.turingMachine = createTuringMachine(Collections.singleton(acceptState1), Collections.singleton(declineState1), rules);
+        this.turingMachine = createTuringMachine(rules);
 
         final List<TuringCondition> result = new TuringCalculator(turingMachine).calculate("ABC");
 
@@ -187,24 +189,38 @@ public class TuringCalculatorTest {
     public void declineAfterMaximumStepsReached() {
         final LinkedHashSet<TuringRule> rules = Sets.newLinkedHashSet(
                 createRule(startState, 'A', Direction.STAY, startState, 'A'));
-        this.turingMachine = createTuringMachine(Sets.newHashSet(), Sets.newHashSet(), rules);
+        this.turingMachine = createTuringMachine(rules);
 
         final List<TuringCondition> result = new TuringCalculator(turingMachine).calculate("ABC");
 
         assertThat(result).isNull();
     }
 
-    private TuringMachine createTuringMachine(final Set<MachineState> acceptStates, final Set<MachineState> declineStates, final Set<TuringRule> rules) {
-        return TuringMachine.builder()
-                .inputCharacters(characters)
-                .states(states)
-                .startState(startState)
-                .acceptStates(acceptStates)
-                .declineStates(declineStates)
-                .rules(rules)
+    private MachineState createState(final String name) {
+        return createState(name, false, false, false);
+    }
+
+    private MachineState createState(
+            final String name, final boolean isStart, final boolean isAccept, final boolean isDecline) {
+        return MachineState.builder()
+                .name(name)
+                .start(isStart)
+                .accept(isAccept)
+                .decline(isDecline)
                 .build();
     }
 
+    private TuringMachine createTuringMachine(final Set<TuringRule> rules) {
+        return createTuringMachine(rules, states);
+    }
+
+    private TuringMachine createTuringMachine(final Set<TuringRule> rules, final Set<MachineState> states) {
+        return TuringMachine.builder()
+                .inputCharacters(characters)
+                .states(states)
+                .rules(rules)
+                .build();
+    }
     private TuringRule createRule(final MachineState fromState, final Character readCharacter,
                                   final Direction direction, final MachineState toState, final Character writeCharacter) {
         return TuringRule.builder()

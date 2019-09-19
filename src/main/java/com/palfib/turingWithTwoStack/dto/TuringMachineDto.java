@@ -14,13 +14,7 @@ public class TuringMachineDto {
 
     private Set<Character> tapeCharacters;
 
-    private Set<String> states;
-
-    private String startState;
-
-    private Set<String> acceptStates;
-
-    private Set<String> declineStates;
+    private Set<MachineStateDto> states;
 
     private Set<TuringRuleDto> rules;
 
