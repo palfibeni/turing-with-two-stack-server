@@ -5,19 +5,17 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.List;
-
 @Getter
 @Builder
-@JsonDeserialize(builder = CalculationDto.CalculationDtoBuilder.class)
-public class CalculationDto {
+@JsonDeserialize(builder = CalculationInputDto.CalculationInputDtoBuilder.class)
+public class CalculationInputDto {
 
-    private List<ConditionDto> turingConditions;
+    private TuringMachineDto turingMachine;
 
-    private List<ConditionDto> twoStackCalculations;
+    private String input;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class CalculationDtoBuilder{
+    public static class CalculationInputDtoBuilder{
 
     }
 }
