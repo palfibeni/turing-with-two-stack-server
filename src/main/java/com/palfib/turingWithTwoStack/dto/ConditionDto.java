@@ -12,9 +12,9 @@ import java.util.List;
 @JsonDeserialize(builder = ConditionDto.ConditionDtoBuilder.class)
 public class ConditionDto {
 
-    private String currentState;
+    private Long currentState;
 
-    private Character currentPostion;
+    private Character currentPosition;
 
     private List<Character> charactersAhead;
 

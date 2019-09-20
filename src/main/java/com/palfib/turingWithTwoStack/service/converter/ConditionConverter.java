@@ -15,8 +15,8 @@ public class ConditionConverter {
 
     public static ConditionDto toDto(final Condition condition) {
         return ConditionDto.builder()
-                .currentState(condition.getCurrentState().getName())
-                .currentPostion(condition.getCurrentPosition())
+                .currentState(condition.getCurrentState().getId())
+                .currentPosition(condition.getCurrentPosition())
                 .charactersAhead(condition.getCharactersAhead())
                 .charactersBehind(condition.getCharactersBehind())
                 .build();
