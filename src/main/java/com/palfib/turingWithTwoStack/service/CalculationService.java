@@ -6,6 +6,7 @@ import com.palfib.turingWithTwoStack.entity.turing.TuringCondition;
 import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
 import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackCondition;
 import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackMachine;
+import com.palfib.turingWithTwoStack.exception.NoValidRunException;
 import com.palfib.turingWithTwoStack.exception.ValidationException;
 import com.palfib.turingWithTwoStack.service.calculator.TuringCalculator;
 import com.palfib.turingWithTwoStack.service.calculator.TwoStackCalculator;
@@ -45,7 +46,7 @@ public class CalculationService {
         val result = turingCalculator.calculate(input);
         if (result == null) {
             // TODO exception handling
-            throw new RuntimeException("No valid run found.");
+            throw new NoValidRunException(input);
         }
         return result;
     }
@@ -56,7 +57,7 @@ public class CalculationService {
         val result = twoStackCalculator.calculate(input);
         if (result == null) {
             // TODO exception handling
-            throw new RuntimeException("No valid run found.");
+            throw new NoValidRunException(input);
         }
         return result;
     }

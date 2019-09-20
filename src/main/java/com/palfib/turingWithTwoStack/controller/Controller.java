@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.palfib.turingWithTwoStack.dto.CalculationDto;
 import com.palfib.turingWithTwoStack.dto.CalculationInputDto;
 import com.palfib.turingWithTwoStack.dto.TuringMachineDto;
+import com.palfib.turingWithTwoStack.exception.NoValidRunException;
 import com.palfib.turingWithTwoStack.exception.ValidationException;
 import com.palfib.turingWithTwoStack.service.CalculationService;
 import com.palfib.turingWithTwoStack.service.converter.TuringMachineConverter;
@@ -34,7 +35,10 @@ public class Controller {
             return calculationService.calculate(calculationInputDto.getTuringMachine(), calculationInputDto.getInput());
         } catch (ValidationException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+        } catch (NoValidRunException ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
         }
+
     }
 
     @GetMapping(path = "/AnBnCnTuringMachine", produces = {MediaType.APPLICATION_JSON_VALUE})
