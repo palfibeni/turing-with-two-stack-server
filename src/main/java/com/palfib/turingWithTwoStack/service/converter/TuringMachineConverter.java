@@ -3,23 +3,35 @@ package com.palfib.turingWithTwoStack.service.converter;
 import com.palfib.turingWithTwoStack.dto.TuringMachineDto;
 import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
 import lombok.val;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TuringMachineConverter {
 
-    public static TuringMachine fromDto(final TuringMachineDto dto) {
-        val states = MachineStateConverter.fromDtos(dto.getStates());
+    private final MachineStateConverter machineStateConverter;
+
+    private final TuringRuleConverter turingRuleConverter;
+
+    public TuringMachineConverter(final MachineStateConverter machineStateConverter,
+                                  final TuringRuleConverter turingRuleConverter){
+        this.machineStateConverter = machineStateConverter;
+        this.turingRuleConverter = turingRuleConverter;
+    }
+
+    public TuringMachine fromDto(final TuringMachineDto dto) {
+        val states = machineStateConverter.fromDtos(dto.getStates());
         return TuringMachine.builder()
                 .inputCharacters(dto.getTapeCharacters())
                 .states(states)
-                .rules(TuringRuleConverter.fromDtos(dto.getRules(), states))
+                .rules(turingRuleConverter.fromDtos(dto.getRules(), states))
                 .build();
     }
 
-    public static TuringMachineDto toDto(final TuringMachine entity) {
+    public TuringMachineDto toDto(final TuringMachine entity) {
         return TuringMachineDto.builder()
                 .tapeCharacters(entity.getInputCharacters())
-                .states(MachineStateConverter.toDtos(entity.getStates()))
-                .rules(TuringRuleConverter.toDtos(entity.getRules()))
+                .states(machineStateConverter.toDtos(entity.getStates()))
+                .rules(turingRuleConverter.toDtos(entity.getRules()))
                 .build();
     }
 }

@@ -9,7 +9,6 @@ import com.palfib.turingWithTwoStack.exception.ValidationException;
 import com.palfib.turingWithTwoStack.service.CalculationService;
 import com.palfib.turingWithTwoStack.service.converter.TuringMachineConverter;
 import com.palfib.turingWithTwoStack.service.defaults.AnBnCnTuringMachine;
-import lombok.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +20,13 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 public class Controller {
 
-    private CalculationService calculationService;
+    private final CalculationService calculationService;
 
-    Controller(final CalculationService calculationService) {
+    private final TuringMachineConverter turingMachineConverter;
+
+    Controller(final CalculationService calculationService, final TuringMachineConverter turingMachineConverter) {
         this.calculationService = calculationService;
+        this.turingMachineConverter = turingMachineConverter;
     }
 
     @PostMapping(path = "/calculate")
@@ -43,7 +45,7 @@ public class Controller {
 
     @GetMapping(path = "/AnBnCnTuringMachine", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<TuringMachineDto> getAnBnCnTuringMachine() {
-        return ResponseEntity.ok(TuringMachineConverter.toDto(AnBnCnTuringMachine.createAnBnCnMachine()));
+        return ResponseEntity.ok(turingMachineConverter.toDto(AnBnCnTuringMachine.createAnBnCnMachine()));
     }
 
 }

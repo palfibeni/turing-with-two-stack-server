@@ -24,20 +24,32 @@ public class CalculationService {
 
     private final CalculationValidator calculationValidator;
 
-    public CalculationService(final CalculationValidator calculationValidator) {
+    private final TuringMachineConverter turingMachineConverter;
+
+    private final TwoStackMachineConverter twoStackMachineConverter;
+
+    private final ConditionConverter conditionConverter;
+
+    public CalculationService(final CalculationValidator calculationValidator,
+                              final TuringMachineConverter turingMachineConverter,
+                              final TwoStackMachineConverter twoStackMachineConverter,
+                              final ConditionConverter conditionConverter) {
         this.calculationValidator = calculationValidator;
+        this.turingMachineConverter = turingMachineConverter;
+        this.twoStackMachineConverter = twoStackMachineConverter;
+        this.conditionConverter = conditionConverter;
     }
 
     public CalculationDto calculate(final TuringMachineDto turingMachineDto, final String input) throws ValidationException {
         calculationValidator.validateCalculation(turingMachineDto, input);
 
-        val turingMachine = TuringMachineConverter.fromDto(turingMachineDto);
+        val turingMachine = turingMachineConverter.fromDto(turingMachineDto);
         val turingConditions = turingCalculate(turingMachine, input);
-        val twoStackMachine = TwoStackMachineConverter.fromTuringMachine(turingMachine);
+        val twoStackMachine = twoStackMachineConverter.fromTuringMachine(turingMachine);
         val twoStackConditions = twoStackCalculate(twoStackMachine, input);
         return CalculationDto.builder()
-                .turingConditions(ConditionConverter.toDtos(turingConditions))
-                .twoStackCalculations(ConditionConverter.toDtos(twoStackConditions))
+                .turingConditions(conditionConverter.toDtos(turingConditions))
+                .twoStackCalculations(conditionConverter.toDtos(twoStackConditions))
                 .build();
     }
 
