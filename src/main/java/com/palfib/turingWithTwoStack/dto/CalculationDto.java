@@ -14,7 +14,7 @@ public class CalculationDto {
 
     private List<ConditionDto> turingConditions;
 
-    private List<ConditionDto> twoStackCalculations;
+    private List<ConditionDto> twoStackConditions;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CalculationDtoBuilder{

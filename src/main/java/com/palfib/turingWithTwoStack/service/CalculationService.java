@@ -49,7 +49,7 @@ public class CalculationService {
         val twoStackConditions = twoStackCalculate(twoStackMachine, input);
         return CalculationDto.builder()
                 .turingConditions(conditionConverter.toDtos(turingConditions))
-                .twoStackCalculations(conditionConverter.toDtos(twoStackConditions))
+                .twoStackConditions(conditionConverter.toDtos(twoStackConditions))
                 .build();
     }
 
