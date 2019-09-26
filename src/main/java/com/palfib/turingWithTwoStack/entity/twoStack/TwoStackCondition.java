@@ -3,9 +3,14 @@ package com.palfib.turingWithTwoStack.entity.twoStack;
 import com.palfib.turingWithTwoStack.entity.Condition;
 import com.palfib.turingWithTwoStack.entity.MachineState;
 import com.palfib.turingWithTwoStack.entity.Rule;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.val;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

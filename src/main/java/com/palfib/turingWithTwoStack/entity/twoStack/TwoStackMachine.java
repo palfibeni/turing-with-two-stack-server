@@ -7,12 +7,34 @@ import lombok.Data;
 
 import java.util.Set;
 
+import static java.util.stream.Collectors.toSet;
+
 @Data
-public class TwoStackMachine extends Machine<TwoStackRule> {
+public class TwoStackMachine extends Machine {
+
+    private Set<TwoStackRule> rules;
+
+    private Set<MachineState> states;
 
     @Builder
-    public TwoStackMachine(
-            final Set<Character> inputCharacters, final Set<MachineState> states, final Set<TwoStackRule> rules) {
-        super(inputCharacters, states, rules);
+    public TwoStackMachine(final Long id, final Set<Character> inputCharacters,
+                           final Set<MachineState> states, final Set<TwoStackRule> rules) {
+        super(id, inputCharacters);
+        this.rules = rules;
+        this.states = states;
     }
+
+    public MachineState getStartState() {
+        // TODO validálni kéne
+        return states.stream().filter(MachineState::isStart).findFirst().orElse(null);
+    }
+
+    public Set<MachineState> getAcceptStates() {
+        return states.stream().filter(MachineState::isAccept).collect(toSet());
+    }
+
+    public Set<MachineState> getDeclineStates() {
+        return states.stream().filter(MachineState::isDecline).collect(toSet());
+    }
+
 }

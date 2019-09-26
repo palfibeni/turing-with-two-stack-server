@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="Sonrisa (generated)" id="1569503535055-1">
+        <createSequence sequenceName="hibernate_sequence"/>
+    </changeSet>
+    <changeSet author="Sonrisa (generated)" id="1569503535055-2">
+        <createTable tableName="machine_state">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="machine_statePK"/>
+            </column>
+            <column name="accept" type="BOOLEAN"/>
+            <column name="decline" type="BOOLEAN"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="start" type="BOOLEAN"/>
+            <column name="turing_machine" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Sonrisa (generated)" id="1569503535055-3">
+        <createTable tableName="turing_machine">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="turing_machinePK"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Sonrisa (generated)" id="1569503535055-4">
+        <createTable tableName="turing_machine_input_characters">
+            <column name="turing_machine_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="input_characters" type="CHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Sonrisa (generated)" id="1569503535055-5">
+        <createTable tableName="turing_rule">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="turing_rulePK"/>
+            </column>
+            <column name="read_character" type="CHAR(255)"/>
+            <column name="direction" type="INT"/>
+            <column name="write_character" type="CHAR(255)"/>
+            <column name="from_state" type="BIGINT"/>
+            <column name="to_state" type="BIGINT"/>
+            <column name="turing_machine" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Sonrisa (generated)" id="1569503535055-6">
+        <addForeignKeyConstraint baseColumnNames="turing_machine" baseTableName="machine_state" constraintName="FK2nn2ju7ea1ehp40erxh9fcph" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="turing_machine"/>
+    </changeSet>
+    <changeSet author="Sonrisa (generated)" id="1569503535055-7">
+        <addForeignKeyConstraint baseColumnNames="turing_machine" baseTableName="turing_rule" constraintName="FK5080peu2d2qslgncwvypnyk9h" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="turing_machine"/>
+    </changeSet>
+    <changeSet author="Sonrisa (generated)" id="1569503535055-8">
+        <addForeignKeyConstraint baseColumnNames="from_state" baseTableName="turing_rule" constraintName="FKduq67rpu7hno2ol8yvobkd517" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="machine_state"/>
+    </changeSet>
+    <changeSet author="Sonrisa (generated)" id="1569503535055-9">
+        <addForeignKeyConstraint baseColumnNames="to_state" baseTableName="turing_rule" constraintName="FKh9t6t9pmw13cyl1nga50l35j7" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="machine_state"/>
+    </changeSet>
+    <changeSet author="Sonrisa (generated)" id="1569503535055-10">
+        <addForeignKeyConstraint baseColumnNames="turing_machine_id" baseTableName="turing_machine_input_characters" constraintName="FKn2k9cmwf8pgel9e1yi1173p8m" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="turing_machine"/>
+    </changeSet>
+    <include file="db/liquibase/init_an_bn_cn_machine.xml" relativeToChangelogFile="false"/>
+</databaseChangeLog>

@@ -1,24 +1,43 @@
 package com.palfib.turingWithTwoStack.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
+import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackMachine;
+import lombok.*;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "machineState")
 @Data
-@AllArgsConstructor
 @EqualsAndHashCode
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class MachineState {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "start")
     private boolean start;
 
+    @Column(name = "accept")
     private boolean accept;
 
+    @Column(name = "decline")
     private boolean decline;
+
+    @ManyToOne
+    @JoinColumn(name = "turingMachine")
+    @ToString.Exclude
+    private TuringMachine turingMachine;
+
+    @Transient
+    @ToString.Exclude
+    private TwoStackMachine twoStackMachine;
 
 }

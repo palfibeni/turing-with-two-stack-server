@@ -1,33 +1,33 @@
 package com.palfib.turingWithTwoStack.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
+import javax.persistence.*;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toSet;
 
-@Getter
+@MappedSuperclass
+@Data
 @AllArgsConstructor
-public abstract class Machine<T extends Rule> {
+@NoArgsConstructor
+public abstract class Machine {
 
-    private Set<Character> inputCharacters = new HashSet<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected Long id;
 
-    private Set<MachineState> states = new HashSet<>();
+    @ElementCollection
+    @Column(name = "inputCharacters")
+    protected Set<Character> inputCharacters;
 
-    private Set<T> rules = new HashSet<>();
+    public abstract MachineState getStartState();
 
-    public MachineState getStartState() {
-        // TODO validálni kéne
-        return states.stream().filter(MachineState::isStart).findFirst().orElse(null);
-    }
+    public abstract Set<MachineState> getAcceptStates();
 
-    public Set<MachineState> getAcceptStates() {
-        return states.stream().filter(MachineState::isAccept).collect(toSet());
-    }
+    public abstract Set<MachineState> getDeclineStates();
 
-    public Set<MachineState> getDeclineStates() {
-        return states.stream().filter(MachineState::isDecline).collect(toSet());
-    }
+    public abstract Set<? extends Rule> getRules();
 }

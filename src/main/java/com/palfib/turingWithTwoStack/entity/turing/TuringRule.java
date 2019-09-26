@@ -3,25 +3,37 @@ package com.palfib.turingWithTwoStack.entity.turing;
 import com.palfib.turingWithTwoStack.entity.MachineState;
 import com.palfib.turingWithTwoStack.entity.Rule;
 import com.palfib.turingWithTwoStack.entity.enums.Direction;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.val;
+import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackMachine;
+import lombok.*;
 
+import javax.persistence.*;
 import java.util.Objects;
 
-@Getter
+@Entity
+@Table(name = "turingRule")
+@Data
+@NoArgsConstructor
 public class TuringRule extends Rule {
 
+    @Column(name = "writeCharacter")
     private Character writeCharacter;
 
+    @Column(name = "direction")
     private Direction direction;
 
+    @ManyToOne
+    @JoinColumn(name = "turingMachine")
+    @ToString.Exclude
+    private TuringMachine machine;
+
     @Builder
-    public TuringRule(final Long id, final MachineState fromState, final Character readCharacter, final MachineState toState,
-                      final Character writeCharacter, final Direction direction) {
+    public TuringRule(final Long id, final MachineState fromState, final Character readCharacter,
+                      final MachineState toState, final Character writeCharacter, final Direction direction,
+                      final TuringMachine machine) {
         super(id, fromState, readCharacter, toState);
         this.writeCharacter = writeCharacter;
         this.direction = direction;
+        this.machine = machine;
     }
 
     @Override

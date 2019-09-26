@@ -1,14 +1,14 @@
 package com.palfib.turingWithTwoStack.controller;
 
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.palfib.turingWithTwoStack.dto.CalculationDto;
 import com.palfib.turingWithTwoStack.dto.CalculationInputDto;
 import com.palfib.turingWithTwoStack.dto.TuringMachineDto;
 import com.palfib.turingWithTwoStack.exception.NoValidRunException;
 import com.palfib.turingWithTwoStack.exception.ValidationException;
+import com.palfib.turingWithTwoStack.repository.TuringMachineRepository;
 import com.palfib.turingWithTwoStack.service.CalculationService;
+import com.palfib.turingWithTwoStack.service.TuringMachineService;
 import com.palfib.turingWithTwoStack.service.converter.TuringMachineConverter;
-import com.palfib.turingWithTwoStack.service.defaults.AnBnCnTuringMachine;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +24,13 @@ public class Controller {
 
     private final TuringMachineConverter turingMachineConverter;
 
-    Controller(final CalculationService calculationService, final TuringMachineConverter turingMachineConverter) {
+    private final TuringMachineService turingMachineService;
+
+    Controller(final CalculationService calculationService, final TuringMachineConverter turingMachineConverter,
+    final TuringMachineService turingMachineService) {
         this.calculationService = calculationService;
         this.turingMachineConverter = turingMachineConverter;
+        this.turingMachineService = turingMachineService;
     }
 
     @PostMapping(path = "/calculate")
@@ -45,7 +49,7 @@ public class Controller {
 
     @GetMapping(path = "/AnBnCnTuringMachine", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<TuringMachineDto> getAnBnCnTuringMachine() {
-        return ResponseEntity.ok(turingMachineConverter.toDto(AnBnCnTuringMachine.createAnBnCnMachine()));
+        return ResponseEntity.ok(turingMachineConverter.toDto(turingMachineService.getAnBnCnMachine()));
     }
 
 }
