@@ -1,14 +1,9 @@
 package com.palfib.turingWithTwoStack.controller;
 
-import com.palfib.turingWithTwoStack.dto.CalculationDto;
-import com.palfib.turingWithTwoStack.dto.CalculationInputDto;
 import com.palfib.turingWithTwoStack.dto.TuringMachineDto;
-import com.palfib.turingWithTwoStack.exception.NoValidRunException;
 import com.palfib.turingWithTwoStack.exception.ValidationException;
-import com.palfib.turingWithTwoStack.repository.TuringMachineRepository;
-import com.palfib.turingWithTwoStack.service.CalculationService;
 import com.palfib.turingWithTwoStack.service.TuringMachineService;
-import com.palfib.turingWithTwoStack.service.converter.TuringMachineConverter;
+import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,29 +15,12 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping("/api")
 @RestController
-public class Controller {
-
-    private final CalculationService calculationService;
-
+public class TuringMachineController {
 
     private final TuringMachineService turingMachineService;
 
-    Controller(final CalculationService calculationService, final TuringMachineService turingMachineService) {
-        this.calculationService = calculationService;
+    TuringMachineController(final TuringMachineService turingMachineService) {
         this.turingMachineService = turingMachineService;
-    }
-
-    @PostMapping(path = "/calculate")
-    @ResponseBody
-    public CalculationDto calculate(
-            final @RequestBody CalculationInputDto calculationInputDto) {
-        try {
-            return calculationService.calculate(calculationInputDto.getTuringMachine(), calculationInputDto.getInput());
-        } catch (ValidationException ex) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
-        } catch (NoValidRunException ex) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
-        }
     }
 
 
@@ -63,6 +41,20 @@ public class Controller {
     @GetMapping(path = "/an-bn-cn-turing-machine", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<TuringMachineDto> getAnBnCnTuringMachine() {
         return ResponseEntity.ok(turingMachineService.getAnBnCnMachine());
+    }
+
+    /**
+     * Creates or Updates a Turing machine
+     * @return saved Turing machine
+     */
+    @PostMapping(path= "/turing-machine", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<TuringMachineDto> updateTuringMachine(final @RequestBody TuringMachineDto turingMachineDto) {
+        try {
+            val saved = turingMachineService.save(turingMachineDto);
+            return ResponseEntity.ok(saved);
+        } catch (ValidationException ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+        }
     }
 
 }

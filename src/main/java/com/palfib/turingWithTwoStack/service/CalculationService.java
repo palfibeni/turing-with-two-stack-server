@@ -14,6 +14,7 @@ import com.palfib.turingWithTwoStack.service.converter.ConditionConverter;
 import com.palfib.turingWithTwoStack.service.converter.TuringMachineConverter;
 import com.palfib.turingWithTwoStack.service.converter.TwoStackMachineConverter;
 import com.palfib.turingWithTwoStack.service.validator.CalculationValidator;
+import com.palfib.turingWithTwoStack.service.validator.TuringMachineValidator;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,8 @@ import java.util.List;
 
 @Service
 public class CalculationService {
+
+    private final TuringMachineValidator turingMachineValidator;
 
     private final CalculationValidator calculationValidator;
 
@@ -30,10 +33,12 @@ public class CalculationService {
 
     private final ConditionConverter conditionConverter;
 
-    public CalculationService(final CalculationValidator calculationValidator,
+    public CalculationService(final TuringMachineValidator turingMachineValidator,
+                              final CalculationValidator calculationValidator,
                               final TuringMachineConverter turingMachineConverter,
                               final TwoStackMachineConverter twoStackMachineConverter,
                               final ConditionConverter conditionConverter) {
+        this.turingMachineValidator = turingMachineValidator;
         this.calculationValidator = calculationValidator;
         this.turingMachineConverter = turingMachineConverter;
         this.twoStackMachineConverter = twoStackMachineConverter;
@@ -41,6 +46,7 @@ public class CalculationService {
     }
 
     public CalculationDto calculate(final TuringMachineDto turingMachineDto, final String input) throws ValidationException {
+        turingMachineValidator.validateTuringMachine(turingMachineDto);
         calculationValidator.validateCalculation(turingMachineDto, input);
 
         val turingMachine = turingMachineConverter.fromDto(turingMachineDto);

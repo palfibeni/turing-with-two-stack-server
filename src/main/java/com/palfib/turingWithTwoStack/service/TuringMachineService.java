@@ -5,6 +5,7 @@ import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
 import com.palfib.turingWithTwoStack.exception.ValidationException;
 import com.palfib.turingWithTwoStack.repository.TuringMachineRepository;
 import com.palfib.turingWithTwoStack.service.converter.TuringMachineConverter;
+import com.palfib.turingWithTwoStack.service.validator.TuringMachineValidator;
 import lombok.val;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -17,14 +18,18 @@ import static org.hibernate.validator.internal.util.CollectionHelper.newArrayLis
 @Service
 public class TuringMachineService {
 
-    private final TuringMachineRepository turingMachineRepository;
+    private final TuringMachineValidator turingMachineValidator;
 
     private final TuringMachineConverter turingMachineConverter;
 
-    public TuringMachineService(final TuringMachineRepository turingMachineRepository,
-                                final TuringMachineConverter turingMachineConverter) {
-        this.turingMachineRepository = turingMachineRepository;
+    private final TuringMachineRepository turingMachineRepository;
+
+    public TuringMachineService(final TuringMachineValidator turingMachineValidator,
+                                final TuringMachineConverter turingMachineConverter,
+                                final TuringMachineRepository turingMachineRepository) {
+        this.turingMachineValidator = turingMachineValidator;
         this.turingMachineConverter = turingMachineConverter;
+        this.turingMachineRepository = turingMachineRepository;
     }
 
     public TuringMachineDto findById(final Long id) throws ValidationException {
@@ -39,13 +44,23 @@ public class TuringMachineService {
         return turingMachineConverter.toDto(findByName("AnBnCnMachine").get());
     }
 
-    public Optional<TuringMachine> findByName(final String name) {
+    private Optional<TuringMachine> findByName(final String name) {
         val example = Example.of(TuringMachine.builder().name(name).build());
         return turingMachineRepository.findOne(example);
     }
 
     public List<TuringMachineDto> findAll() {
         return turingMachineConverter.toDtos(newArrayList(turingMachineRepository.findAll()));
+    }
+
+    public TuringMachineDto save(final TuringMachineDto turingMachineDto) throws ValidationException {
+        turingMachineValidator.validateTuringMachine(turingMachineDto);
+        val saved = turingMachineRepository.save(turingMachineConverter.fromDto(turingMachineDto));
+        return turingMachineConverter.toDto(saved);
+    }
+
+    public void delete(final TuringMachineDto dto) {
+        turingMachineRepository.delete(turingMachineConverter.fromDto(dto));
     }
 
 }
