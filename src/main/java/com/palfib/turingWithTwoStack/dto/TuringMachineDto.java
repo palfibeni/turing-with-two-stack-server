@@ -12,6 +12,10 @@ import java.util.Set;
 @JsonDeserialize(builder = TuringMachineDto.TuringMachineDtoBuilder.class)
 public class TuringMachineDto {
 
+    private Long id;
+
+    private String name;
+
     private Set<Character> tapeCharacters;
 
     private Set<MachineStateDto> states;

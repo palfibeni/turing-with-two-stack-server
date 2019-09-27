@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @CrossOrigin
 @RequestMapping("/api")
 @RestController
@@ -22,14 +24,11 @@ public class Controller {
 
     private final CalculationService calculationService;
 
-    private final TuringMachineConverter turingMachineConverter;
 
     private final TuringMachineService turingMachineService;
 
-    Controller(final CalculationService calculationService, final TuringMachineConverter turingMachineConverter,
-    final TuringMachineService turingMachineService) {
+    Controller(final CalculationService calculationService, final TuringMachineService turingMachineService) {
         this.calculationService = calculationService;
-        this.turingMachineConverter = turingMachineConverter;
         this.turingMachineService = turingMachineService;
     }
 
@@ -44,12 +43,26 @@ public class Controller {
         } catch (NoValidRunException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
         }
-
     }
 
-    @GetMapping(path = "/AnBnCnTuringMachine", produces = {MediaType.APPLICATION_JSON_VALUE})
+
+    @GetMapping(path = "/turing-machines", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<TuringMachineDto>> getTuringMachines() {
+        return ResponseEntity.ok(turingMachineService.findAll());
+    }
+
+    @GetMapping(path = "/turing-machine/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<TuringMachineDto> getTuringMachine(@PathVariable(value = "id") Long id) {
+        try {
+            return ResponseEntity.ok(turingMachineService.findById(id));
+        } catch (ValidationException ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+        }
+    }
+
+    @GetMapping(path = "/an-bn-cn-turing-machine", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<TuringMachineDto> getAnBnCnTuringMachine() {
-        return ResponseEntity.ok(turingMachineConverter.toDto(turingMachineService.getAnBnCnMachine()));
+        return ResponseEntity.ok(turingMachineService.getAnBnCnMachine());
     }
 
 }
