@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet author="Sonrisa (generated)" id="init_an_bn_cn">
+    <changeSet author="palfib" id="init_an_bn_cn">
         <sqlFile path="db/liquibase/sql/init_an_bn_cn_machine.sql" relativeToChangelogFile="false"/>
         <sqlFile path="db/liquibase/sql/init_an_bn_cn_input_characters.sql" relativeToChangelogFile="false"/>
         <sqlFile path="db/liquibase/sql/init_an_bn_cn_states.sql" relativeToChangelogFile="false"/>

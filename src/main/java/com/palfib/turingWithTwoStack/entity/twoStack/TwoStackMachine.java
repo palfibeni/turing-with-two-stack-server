@@ -5,6 +5,7 @@ import com.palfib.turingWithTwoStack.entity.MachineState;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toSet;
@@ -18,8 +19,8 @@ public class TwoStackMachine extends Machine {
 
     @Builder
     public TwoStackMachine(final Long id, final Set<Character> inputCharacters,
-                           final Set<MachineState> states, final Set<TwoStackRule> rules) {
-        super(id, inputCharacters);
+                           final Set<MachineState> states, final Set<TwoStackRule> rules, final Date created) {
+        super(id, inputCharacters, created);
         this.rules = rules;
         this.states = states;
     }

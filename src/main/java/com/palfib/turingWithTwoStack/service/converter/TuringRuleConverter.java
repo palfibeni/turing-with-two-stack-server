@@ -51,6 +51,7 @@ public class TuringRuleConverter {
                 .readCharacter(entity.getReadCharacter())
                 .writeCharacter(entity.getWriteCharacter())
                 .direction(entity.getDirection().name())
+                .created(entity.getCreated())
                 .build();
     }
 }

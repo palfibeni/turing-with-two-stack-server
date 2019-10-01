@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.val;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Getter
@@ -19,8 +20,9 @@ public class TwoStackRule extends Rule {
 
     @Builder
     public TwoStackRule(final Long id, final MachineState fromState, final Character readCharacter,
-                        final MachineState toState, final String writeLeft, final String writeRight, final boolean copyLeftToRight) {
-        super(id, fromState, readCharacter, toState);
+                        final MachineState toState, final String writeLeft, final String writeRight,
+                        final boolean copyLeftToRight, final Date created) {
+        super(id, fromState, readCharacter, toState, created);
         this.writeLeft = writeLeft;
         this.writeRight = writeRight;
         this.copyLeftToRight = copyLeftToRight;

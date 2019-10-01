@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @MappedSuperclass
 @Data
@@ -28,5 +29,8 @@ public abstract class Rule {
     @ManyToOne
     @JoinColumn(name = "toState")
     private MachineState toState;
+
+    @Column(name = "created")
+    private Date created;
 
 }

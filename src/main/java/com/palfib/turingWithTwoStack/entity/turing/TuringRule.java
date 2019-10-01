@@ -7,6 +7,7 @@ import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackMachine;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -29,8 +30,8 @@ public class TuringRule extends Rule {
     @Builder
     public TuringRule(final Long id, final MachineState fromState, final Character readCharacter,
                       final MachineState toState, final Character writeCharacter, final Direction direction,
-                      final TuringMachine machine) {
-        super(id, fromState, readCharacter, toState);
+                      final TuringMachine machine, final Date created) {
+        super(id, fromState, readCharacter, toState, created);
         this.writeCharacter = writeCharacter;
         this.direction = direction;
         this.machine = machine;

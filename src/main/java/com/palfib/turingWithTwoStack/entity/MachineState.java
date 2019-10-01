@@ -5,6 +5,7 @@ import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackMachine;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "machineState")
@@ -39,5 +40,8 @@ public class MachineState {
     @Transient
     @ToString.Exclude
     private TwoStackMachine twoStackMachine;
+
+    @Column(name = "created")
+    private Date created;
 
 }

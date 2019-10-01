@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.Date;
 import java.util.Set;
 
 @Getter
@@ -21,6 +22,8 @@ public class TuringMachineDto {
     private Set<MachineStateDto> states;
 
     private Set<TuringRuleDto> rules;
+
+    private Date created;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class TuringMachineDtoBuilder {

@@ -44,6 +44,7 @@ public class TuringMachineConverter {
                 .tapeCharacters(entity.getInputCharacters())
                 .states(machineStateConverter.toDtos(entity.getStates()))
                 .rules(turingRuleConverter.toDtos(entity.getRules()))
+                .created(entity.getCreated())
                 .build();
     }
 }

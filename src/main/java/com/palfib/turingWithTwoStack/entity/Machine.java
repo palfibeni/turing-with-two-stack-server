@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toSet;
@@ -22,6 +23,9 @@ public abstract class Machine {
     @ElementCollection
     @Column(name = "inputCharacters")
     protected Set<Character> inputCharacters;
+
+    @Column(name = "created")
+    private Date created;
 
     public abstract MachineState getStartState();
 

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.Date;
+
 @Getter
 @Builder
 @JsonDeserialize(builder = TuringRuleDto.TuringRuleDtoBuilder.class)
@@ -21,6 +23,8 @@ public class TuringRuleDto {
     private Character writeCharacter;
 
     private String direction;
+
+    private Date created;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class TuringRuleDtoBuilder{

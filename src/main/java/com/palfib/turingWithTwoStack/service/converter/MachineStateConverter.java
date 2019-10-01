@@ -33,13 +33,14 @@ public class MachineStateConverter {
         return entities.stream().map(this::toDto).collect(toSet());
     }
 
-    public MachineStateDto toDto(final MachineState dto) {
+    public MachineStateDto toDto(final MachineState entity) {
         return MachineStateDto.builder()
-                .id(dto.getId())
-                .name(dto.getName())
-                .start(dto.isStart())
-                .accept(dto.isAccept())
-                .decline(dto.isDecline())
+                .id(entity.getId())
+                .name(entity.getName())
+                .start(entity.isStart())
+                .accept(entity.isAccept())
+                .decline(entity.isDecline())
+                .created(entity.getCreated())
                 .build();
     }
 }

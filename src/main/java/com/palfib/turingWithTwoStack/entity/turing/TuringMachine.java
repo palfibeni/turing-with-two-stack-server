@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.val;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 
@@ -31,8 +32,8 @@ public class TuringMachine extends Machine {
 
     @Builder
     public TuringMachine(final Long id, final String name, final Set<Character> inputCharacters,
-                         final Set<MachineState> states, final Set<TuringRule> rules) {
-        super(id, inputCharacters);
+                         final Set<MachineState> states, final Set<TuringRule> rules, final Date created) {
+        super(id, inputCharacters, created);
         this.name = name;
         this.rules = rules;
         this.states = states;
