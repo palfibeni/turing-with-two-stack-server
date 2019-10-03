@@ -71,7 +71,7 @@ public abstract class Calculator<T extends Machine, C extends Condition>{
 
         private void step() {
             // Adding the last state to the acceptedCalculationConditions
-            this.acceptedCalculationConditions.add(condition);
+            this.acceptedCalculationConditions.add(this.condition);
 
             // Checking currentState
             val currentState = this.condition.getCurrentState();

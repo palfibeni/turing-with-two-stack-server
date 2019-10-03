@@ -3,6 +3,8 @@ package com.palfib.turingWithTwoStack.controller;
 import com.palfib.turingWithTwoStack.dto.TuringMachineDto;
 import com.palfib.turingWithTwoStack.exception.ValidationException;
 import com.palfib.turingWithTwoStack.service.TuringMachineService;
+import com.palfib.turingWithTwoStack.converter.TuringMachineConverter;
+import com.palfib.turingWithTwoStack.validator.TuringMachineValidator;
 import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,22 +19,32 @@ import java.util.List;
 @RestController
 public class TuringMachineController {
 
+    private final TuringMachineValidator turingMachineValidator;
+
+    private final TuringMachineConverter turingMachineConverter;
+
     private final TuringMachineService turingMachineService;
 
-    TuringMachineController(final TuringMachineService turingMachineService) {
+    TuringMachineController(final TuringMachineValidator turingMachineValidator,
+                            final TuringMachineConverter turingMachineConverter,
+                            final TuringMachineService turingMachineService) {
+        this.turingMachineValidator = turingMachineValidator;
+        this.turingMachineConverter = turingMachineConverter;
         this.turingMachineService = turingMachineService;
     }
 
 
     @GetMapping(path = "/turing-machines", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<TuringMachineDto>> getTuringMachines() {
-        return ResponseEntity.ok(turingMachineService.findAll());
+        val turingMachines = turingMachineService.findAll();
+        return ResponseEntity.ok(turingMachineConverter.toDtos(turingMachines));
     }
 
     @GetMapping(path = "/turing-machine/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<TuringMachineDto> getTuringMachine(@PathVariable(value = "id") Long id) {
         try {
-            return ResponseEntity.ok(turingMachineService.findById(id));
+            val turingMachine = turingMachineService.findById(id);
+            return ResponseEntity.ok(turingMachineConverter.toDto(turingMachine));
         } catch (ValidationException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
         }
@@ -40,7 +52,8 @@ public class TuringMachineController {
 
     @GetMapping(path = "/an-bn-cn-turing-machine", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<TuringMachineDto> getAnBnCnTuringMachine() {
-        return ResponseEntity.ok(turingMachineService.getAnBnCnMachine());
+        val anBnCnMachine = turingMachineService.getAnBnCnMachine();
+        return ResponseEntity.ok(turingMachineConverter.toDto(anBnCnMachine));
     }
 
     /**
@@ -50,8 +63,9 @@ public class TuringMachineController {
     @PostMapping(path= "/turing-machine", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<TuringMachineDto> updateTuringMachine(final @RequestBody TuringMachineDto turingMachineDto) {
         try {
-            val saved = turingMachineService.save(turingMachineDto);
-            return ResponseEntity.ok(saved);
+            turingMachineValidator.validateTuringMachine(turingMachineDto);
+            val saved = turingMachineService.save(turingMachineConverter.fromDto(turingMachineDto));
+            return ResponseEntity.ok(turingMachineConverter.toDto(saved));
         } catch (ValidationException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
         }

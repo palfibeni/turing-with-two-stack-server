@@ -38,7 +38,7 @@ public class TuringTape {
     }
 
     Character moveCursorForward(final Character characterToWrite) {
-        if(!charactersBehind.isEmpty() || !Condition.EMPTY.equals(characterToWrite)) {
+        if (!charactersBehind.isEmpty() || !Condition.EMPTY.equals(characterToWrite)) {
             this.charactersBehind.addLast(characterToWrite);
         }
         this.currentPosition = getFirstFromAhead();
@@ -46,7 +46,7 @@ public class TuringTape {
     }
 
     Character moveCursorBackward(final Character characterToWrite) {
-        if(!charactersAhead.isEmpty() || !Condition.EMPTY.equals(characterToWrite)) {
+        if (!charactersAhead.isEmpty() || !Condition.EMPTY.equals(characterToWrite)) {
             this.charactersAhead.addFirst(characterToWrite);
         }
         this.currentPosition = getLastFromBehind();

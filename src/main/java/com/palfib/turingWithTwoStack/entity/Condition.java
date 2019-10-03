@@ -12,7 +12,7 @@ public abstract class Condition {
     public static final Character EMPTY = '_';
     public static final String EMPTY_AS_STRING = "_";
 
-    private MachineState currentState;
+    private final MachineState currentState;
 
     public abstract Character getCurrentPosition();
 

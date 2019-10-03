@@ -1,7 +1,6 @@
 package com.palfib.turingWithTwoStack.entity;
 
 import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
-import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackMachine;
 import lombok.*;
 
 import javax.persistence.*;
@@ -32,14 +31,13 @@ public class MachineState {
     @Column(name = "decline")
     private boolean decline;
 
+    /**
+     * Only used for foreign key match
+     */
     @ManyToOne
     @JoinColumn(name = "turingMachine")
     @ToString.Exclude
     private TuringMachine turingMachine;
-
-    @Transient
-    @ToString.Exclude
-    private TwoStackMachine twoStackMachine;
 
     @Column(name = "created")
     private Date created;

@@ -1,4 +1,4 @@
-package com.palfib.turingWithTwoStack.service.converter;
+package com.palfib.turingWithTwoStack.converter;
 
 import com.palfib.turingWithTwoStack.dto.TuringRuleDto;
 import com.palfib.turingWithTwoStack.entity.MachineState;

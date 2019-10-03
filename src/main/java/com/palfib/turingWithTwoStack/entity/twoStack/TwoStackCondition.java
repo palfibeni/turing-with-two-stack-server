@@ -16,6 +16,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
+import static java.util.Collections.reverse;
+import static org.hibernate.validator.internal.util.CollectionHelper.newArrayList;
+
 /**
  * The right stack's first element holds the cursor's pointed character
  */
@@ -25,6 +28,8 @@ public class TwoStackCondition extends Condition {
     private Stack<Character> leftStack = new Stack<>();
 
     private Stack<Character> rightStack = new Stack<>();
+
+
 
     public TwoStackCondition(final MachineState currentState, final String input) {
         super(currentState);
@@ -75,13 +80,13 @@ public class TwoStackCondition extends Condition {
         }
     }
 
-
     public List<Character> getCharactersAhead() {
         if (this.rightStack.isEmpty()) {
             return Collections.emptyList();
         }
-        val charactersAhead = new ArrayList<>(rightStack);
-        charactersAhead.remove(0);
+        val charactersAhead = newArrayList(rightStack);
+        charactersAhead.remove(charactersAhead.size() - 1);
+        reverse(charactersAhead);
         return charactersAhead;
     }
 
@@ -89,6 +94,6 @@ public class TwoStackCondition extends Condition {
         if (this.leftStack.isEmpty()) {
             return Collections.emptyList();
         }
-        return new ArrayList<>(this.leftStack);
+        return newArrayList(this.leftStack);
     }
 }
