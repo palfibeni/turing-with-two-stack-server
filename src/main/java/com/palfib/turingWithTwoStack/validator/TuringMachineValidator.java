@@ -20,7 +20,7 @@ public class TuringMachineValidator {
 
     public void validateTuringMachine(final TuringMachineDto turingMachineDto) throws ValidationException {
         val errors = new ArrayList<String>();
-
+        
         validateStates(errors, turingMachineDto.getStates());
         validateStatesInRules(turingMachineDto, errors);
 

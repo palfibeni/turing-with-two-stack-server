@@ -6,6 +6,7 @@ import com.palfib.turingWithTwoStack.entity.turing.TuringCondition;
 import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
 import com.palfib.turingWithTwoStack.entity.turing.TuringRule;
 import lombok.val;
+import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
 import org.junit.Test;
 
@@ -28,7 +29,6 @@ public class TuringCalculatorTest {
         final List<TuringCondition> result = new TuringCalculator(turingMachine).calculate("ABC");
 
         assertThat(result.size()).isEqualTo(1);
-
         val condition = result.get(0);
         assertThat(condition.getCurrentState()).isEqualTo(acceptStart);
         assertThat(condition.getTuringTape().getCharactersBehind()).isEmpty();

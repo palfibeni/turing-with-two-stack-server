@@ -41,6 +41,8 @@ public class TuringMachineService {
     }
 
     public TuringMachine save(final TuringMachine turingMachine) {
+        turingMachine.getStates().forEach(state -> state.setTuringMachine(turingMachine));
+        turingMachine.getRules().forEach(rule -> rule.setMachine(turingMachine));
         return turingMachineRepository.save(turingMachine);
     }
 

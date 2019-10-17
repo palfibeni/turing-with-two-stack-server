@@ -23,7 +23,7 @@ public class TuringRule extends Rule {
     private Direction direction;
 
     @ManyToOne
-    @JoinColumn(name = "turingMachine")
+    @JoinColumn(name = "turingMachine", referencedColumnName="id")
     @ToString.Exclude
     private TuringMachine machine;
 

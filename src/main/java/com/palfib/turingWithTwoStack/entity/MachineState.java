@@ -35,7 +35,7 @@ public class MachineState {
      * Only used for foreign key match
      */
     @ManyToOne
-    @JoinColumn(name = "turingMachine")
+    @JoinColumn(name = "turingMachine", referencedColumnName="id")
     @ToString.Exclude
     private TuringMachine turingMachine;
 

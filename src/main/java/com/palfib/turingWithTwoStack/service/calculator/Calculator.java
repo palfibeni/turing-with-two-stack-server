@@ -75,7 +75,8 @@ public abstract class Calculator<T extends Machine, C extends Condition>{
 
             // Checking currentState
             val currentState = this.condition.getCurrentState();
-            if (setAccepted(currentState)) return;
+            setAccepted(currentState);
+            if (this.accepted != null) return;
 
             // take a step
             this.numberOfSteps += 1;
@@ -97,20 +98,19 @@ public abstract class Calculator<T extends Machine, C extends Condition>{
             }
         }
 
-        private boolean setAccepted(final MachineState currentState) {
+        private void setAccepted(final MachineState currentState) {
+            // Current state is Accept state -> accept = true
             if (machine.getAcceptStates().contains(currentState)) {
                 this.accepted = true;
-                return true;
             }
+            // Current state is Decline state -> accept = false
             if (machine.getDeclineStates().contains(currentState)) {
                 this.accepted = false;
-                return true;
             }
+            // We are over 1000 steps -> accept = false
             if (this.numberOfSteps > 1000) {
                 this.accepted = false;
-                return true;
             }
-            return false;
         }
 
         /**

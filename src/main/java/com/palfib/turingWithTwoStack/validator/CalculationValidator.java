@@ -4,6 +4,7 @@ import com.palfib.turingWithTwoStack.dto.TuringMachineDto;
 import com.palfib.turingWithTwoStack.exception.ValidationException;
 import lombok.val;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,6 @@ public class CalculationValidator {
 
         validateInputContainsEmpty(input, errors);
         validateCharactersInInput(turingMachineDto, input, errors);
-
         if (!errors.isEmpty()) {
             throw new ValidationException(errors);
         }

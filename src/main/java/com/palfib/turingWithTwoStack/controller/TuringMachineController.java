@@ -61,7 +61,7 @@ public class TuringMachineController {
      * @return saved Turing machine
      */
     @PostMapping(path= "/turing-machine", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<TuringMachineDto> updateTuringMachine(final @RequestBody TuringMachineDto turingMachineDto) {
+    public ResponseEntity<TuringMachineDto> saveTuringMachine(final @RequestBody TuringMachineDto turingMachineDto) {
         try {
             turingMachineValidator.validateTuringMachine(turingMachineDto);
             val saved = turingMachineService.save(turingMachineConverter.fromDto(turingMachineDto));
