@@ -10,7 +10,7 @@ import java.util.Date;
 
 @MappedSuperclass
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"created"})
 @AllArgsConstructor
 @NoArgsConstructor
 public abstract class Rule {

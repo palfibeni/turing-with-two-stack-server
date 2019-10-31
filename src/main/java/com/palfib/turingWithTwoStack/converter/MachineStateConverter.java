@@ -19,7 +19,7 @@ public class MachineStateConverter {
         return dtos.stream().map(this::fromDto).collect(toSet());
     }
 
-    private MachineState fromDto(final MachineStateDto dto) {
+    public MachineState fromDto(final MachineStateDto dto) {
         return MachineState.builder()
                 .id(ofNullable(dto.getId()).orElse(stateId++))
                 .name(dto.getName())

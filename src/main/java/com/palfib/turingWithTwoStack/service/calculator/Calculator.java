@@ -75,14 +75,13 @@ public abstract class Calculator<T extends Machine, C extends Condition>{
 
             // Checking currentState
             val currentState = this.condition.getCurrentState();
-            setAccepted(currentState);
+            setAcceptedRun(currentState);
             if (this.accepted != null) return;
 
             // take a step
             this.numberOfSteps += 1;
-            val currentPosition = this.condition.getCurrentPosition();
-            val validRules = ((Set<Rule>) machine.getRules()).stream()
-                    .filter(rule -> isValidRule(rule, currentPosition, currentState))
+            val validRules = machine.getRules().stream()
+                    .filter(rule -> this.condition.isValidRule(rule))
                     .collect(Collectors.toList());
             if (validRules.isEmpty()) {
                 this.accepted = false;
@@ -98,7 +97,7 @@ public abstract class Calculator<T extends Machine, C extends Condition>{
             }
         }
 
-        private void setAccepted(final MachineState currentState) {
+        private void setAcceptedRun(final MachineState currentState) {
             // Current state is Accept state -> accept = true
             if (machine.getAcceptStates().contains(currentState)) {
                 this.accepted = true;
@@ -118,7 +117,7 @@ public abstract class Calculator<T extends Machine, C extends Condition>{
          *
          * @param validRules: the list of valid rules
          */
-        private void handleNonDeterministicRules(final List<Rule> validRules) {
+        private void handleNonDeterministicRules(final List<? extends Rule> validRules) {
             try {
                 for (val rule : validRules) {
                     val nextCondition = copyCondition(rule.getToState());
@@ -134,11 +133,6 @@ public abstract class Calculator<T extends Machine, C extends Condition>{
             } catch (final InterruptedException e) {
                 // TODO exception handling
             }
-        }
-
-        private boolean isValidRule(final Rule rule, final Character currentPosition, final MachineState currentState) {
-            return rule.getFromState().equals(currentState)
-                    && rule.getReadCharacter().equals(currentPosition);
         }
 
         protected abstract C copyCondition(final MachineState nextState);

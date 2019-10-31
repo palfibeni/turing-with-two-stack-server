@@ -28,7 +28,7 @@ public class TwoStackCalculator extends Calculator<TwoStackMachine, TwoStackCond
 
         @Override
         protected TwoStackCondition copyCondition(final MachineState nextState) {
-            return new TwoStackCondition(nextState, condition.getLeftStack(), condition.getRightStack());
+            return new TwoStackCondition(nextState, condition.getLeftStack(), condition.getRightStack(), condition.getInput());
         }
     }
 }

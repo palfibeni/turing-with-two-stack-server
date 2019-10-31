@@ -3,6 +3,7 @@ package com.palfib.turingWithTwoStack.dto;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Set;
 
 @Getter
 @Builder(toBuilder = true)
+@EqualsAndHashCode(exclude = {"created"})
 @JsonDeserialize(builder = TuringMachineDto.TuringMachineDtoBuilder.class)
 public class TuringMachineDto {
 

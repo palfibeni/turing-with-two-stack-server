@@ -16,6 +16,8 @@ public abstract class Condition {
 
     public abstract Character getCurrentPosition();
 
+    public abstract boolean isValidRule(final Rule rule);
+
     public abstract void useRule(final Rule rule);
 
     public abstract List<Character> getCharactersAhead();

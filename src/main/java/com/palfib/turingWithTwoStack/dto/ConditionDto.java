@@ -2,6 +2,7 @@ package com.palfib.turingWithTwoStack.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.palfib.turingWithTwoStack.entity.MachineState;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @JsonDeserialize(builder = ConditionDto.ConditionDtoBuilder.class)
 public class ConditionDto {
 
-    private Long currentState;
+    private MachineStateDto currentState;
 
     private Character currentPosition;
 

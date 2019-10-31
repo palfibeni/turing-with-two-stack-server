@@ -41,8 +41,8 @@ public class TwoStackMachineConverterTest {
 
         val twoStackMachine = twoStackMachineConverter.fromTuringMachine(turingMachine);
 
-        assertEquals(twoStackMachine.getStates(), states);
-        assertThat(twoStackMachine.getStartState()).isEqualTo(startState);
+        assertThat(twoStackMachine.getStates()).containsAll(states);
+        assertEquals(twoStackMachine.getStates().size(), states.size() + 2);
         assertThat(twoStackMachine.getAcceptStates()).containsExactlyInAnyOrder(acceptState1, acceptState2);
         assertThat(twoStackMachine.getDeclineStates()).containsExactlyInAnyOrder(declineState1, declineState2);
         assertThat(twoStackMachine.getRules()).isEmpty();

@@ -1,6 +1,8 @@
 package com.palfib.turingWithTwoStack.controller;
 
 import com.palfib.turingWithTwoStack.dto.TuringMachineDto;
+import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
+import com.palfib.turingWithTwoStack.entity.turing.TuringRule;
 import com.palfib.turingWithTwoStack.exception.ValidationException;
 import com.palfib.turingWithTwoStack.service.TuringMachineService;
 import com.palfib.turingWithTwoStack.converter.TuringMachineConverter;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
 
 @CrossOrigin
 @RequestMapping("/api")

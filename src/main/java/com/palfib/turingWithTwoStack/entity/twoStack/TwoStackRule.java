@@ -12,17 +12,24 @@ import java.util.Objects;
 @Getter
 public class TwoStackRule extends Rule {
 
-    private String writeLeft;
+    private final Character readRight;
 
-    private String writeRight;
+    private final Character readLeft;
 
-    private boolean copyLeftToRight;
+    private final String writeLeft;
+
+    private final String writeRight;
+
+    private final boolean copyLeftToRight;
 
     @Builder
     public TwoStackRule(final Long id, final MachineState fromState, final Character readCharacter,
-                        final MachineState toState, final String writeLeft, final String writeRight,
+                        final MachineState toState, final Character readRight, final Character readLeft,
+                        final String writeLeft, final String writeRight,
                         final boolean copyLeftToRight, final Date created) {
         super(id, fromState, readCharacter, toState, created);
+        this.readRight = readRight;
+        this.readLeft = readLeft;
         this.writeLeft = writeLeft;
         this.writeRight = writeRight;
         this.copyLeftToRight = copyLeftToRight;
@@ -35,12 +42,14 @@ public class TwoStackRule extends Rule {
         if (!super.equals(o)) return false;
         val that = (TwoStackRule) o;
         return copyLeftToRight == that.copyLeftToRight
-                && writeLeft.equals(that.writeLeft)
-                && writeRight.equals(that.writeRight);
+                && Objects.equals(readRight, that.readRight)
+                && Objects.equals(readLeft, that.readLeft)
+                && Objects.equals(writeLeft, that.writeLeft)
+                && Objects.equals(writeRight, that.writeRight);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), writeLeft, writeRight, copyLeftToRight);
+        return Objects.hash(super.hashCode(), readLeft, readRight, writeLeft, writeRight, copyLeftToRight);
     }
 }

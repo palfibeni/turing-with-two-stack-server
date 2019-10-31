@@ -34,9 +34,19 @@ public class TuringCondition extends Condition {
     }
 
     @Override
+    public boolean isValidRule(final Rule rule) {
+        if(!(rule instanceof TuringRule)) {
+            throw new IllegalStateException("Only TuringRule can be used on TuringCondition!");
+        }
+        val turingRule = (TuringRule) rule;
+        return turingRule.getFromState().equals(getCurrentState())
+                && turingRule.getReadCharacter().equals(getCurrentPosition());
+    }
+
+    @Override
     public void useRule(final Rule rule) {
         if(!(rule instanceof TuringRule)) {
-            throw new IllegalStateException("Only TuringRule can be used on TuringState!");
+            throw new IllegalStateException("Only TuringRule can be used on TuringCondition!");
         }
         val turingRule = (TuringRule) rule;
         val direction = turingRule.getDirection();

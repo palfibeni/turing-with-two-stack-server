@@ -14,18 +14,24 @@ import static java.util.stream.Collectors.toSet;
 @Component
 public class TuringRuleConverter {
 
+    private final MachineStateConverter machineStateConverter;
+
     private Long ruleId = 1L;
 
-    public Set<TuringRule> fromDtos(final Set<TuringRuleDto> dtos, final Set<MachineState> states) {
-        ruleId = 1L;
-        return dtos.stream().map(dto -> this.fromDto(dto, states)).collect(toSet());
+    public TuringRuleConverter(final MachineStateConverter machineStateConverter) {
+        this.machineStateConverter = machineStateConverter;
     }
 
-    private TuringRule fromDto(final TuringRuleDto dto, final Set<MachineState> states) {
+    public Set<TuringRule> fromDtos(final Set<TuringRuleDto> dtos) {
+        ruleId = 1L;
+        return dtos.stream().map(this::fromDto).collect(toSet());
+    }
+
+    private TuringRule fromDto(final TuringRuleDto dto) {
         return TuringRule.builder()
                 .id(ofNullable(dto.getId()).orElse(ruleId++))
-                .fromState(getStateFromDto(dto.getFromState(), states))
-                .toState(getStateFromDto(dto.getToState(), states))
+                .fromState(machineStateConverter.fromDto(dto.getFromState()))
+                .toState(machineStateConverter.fromDto(dto.getToState()))
                 .readCharacter(dto.getReadCharacter())
                 .writeCharacter(dto.getWriteCharacter())
                 .direction(Direction.valueOf(dto.getDirection()))
@@ -46,8 +52,8 @@ public class TuringRuleConverter {
     private TuringRuleDto toDto(final TuringRule entity) {
         return TuringRuleDto.builder()
                 .id(entity.getId())
-                .fromState(entity.getFromState().getId())
-                .toState(entity.getToState().getId())
+                .fromState(machineStateConverter.toDto(entity.getFromState()))
+                .toState(machineStateConverter.toDto(entity.getToState()))
                 .readCharacter(entity.getReadCharacter())
                 .writeCharacter(entity.getWriteCharacter())
                 .direction(entity.getDirection().name())

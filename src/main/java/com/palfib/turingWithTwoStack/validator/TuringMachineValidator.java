@@ -3,6 +3,7 @@ package com.palfib.turingWithTwoStack.validator;
 import com.palfib.turingWithTwoStack.dto.MachineStateDto;
 import com.palfib.turingWithTwoStack.dto.TuringMachineDto;
 import com.palfib.turingWithTwoStack.dto.TuringRuleDto;
+import com.palfib.turingWithTwoStack.entity.MachineState;
 import com.palfib.turingWithTwoStack.exception.ValidationException;
 import lombok.val;
 import org.springframework.stereotype.Component;
@@ -36,17 +37,17 @@ public class TuringMachineValidator {
     }
 
     private void validateStatesInRules(final TuringMachineDto turingMachineDto, final List<String> errors) {
-        val states = turingMachineDto.getStates().stream().map(MachineStateDto::getId).collect(toSet());
+        val states = turingMachineDto.getStates();
         val unknownFromStateStream = getUnknownStateStreamFromRule(turingMachineDto, states, TuringRuleDto::getFromState);
         val unknownToStateStream = getUnknownStateStreamFromRule(turingMachineDto, states, TuringRuleDto::getToState);
         val statesUnknown = Stream.concat(unknownFromStateStream, unknownToStateStream).collect(toSet());
         if (!statesUnknown.isEmpty()) {
-            errors.add(String.format("There is unknown state ids in some rules: %s\n", statesUnknown.toString()));
+            errors.add(String.format("There is unknown states in some rules: %s\n", statesUnknown.toString()));
         }
     }
 
-    private Stream<Long> getUnknownStateStreamFromRule(
-            final TuringMachineDto turingMachineDto, final Set<Long> states, final Function<TuringRuleDto, Long> getState) {
+    private Stream<MachineStateDto> getUnknownStateStreamFromRule(
+            final TuringMachineDto turingMachineDto, final Set<MachineStateDto> states, final Function<TuringRuleDto, MachineStateDto> getState) {
         return turingMachineDto.getRules().stream()
                 .filter(rule -> !states.contains(getState.apply(rule)))
                 .map(getState);

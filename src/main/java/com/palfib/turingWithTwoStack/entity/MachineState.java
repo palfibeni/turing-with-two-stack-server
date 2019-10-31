@@ -9,7 +9,7 @@ import java.util.Date;
 @Entity
 @Table(name = "machineState")
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"start", "accept", "decline", "created"})
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

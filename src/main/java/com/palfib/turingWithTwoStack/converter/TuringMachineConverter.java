@@ -29,7 +29,7 @@ public class TuringMachineConverter {
                 .name(dto.getName())
                 .inputCharacters(dto.getTapeCharacters())
                 .states(states)
-                .rules(turingRuleConverter.fromDtos(dto.getRules(), states))
+                .rules(turingRuleConverter.fromDtos(dto.getRules()))
                 .build();
     }
 
