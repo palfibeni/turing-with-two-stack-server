@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Stream;
 
 import static com.palfib.turingWithTwoStack.entity.Condition.EMPTY;
 import static com.palfib.turingWithTwoStack.entity.twoStack.TwoStackCondition.*;

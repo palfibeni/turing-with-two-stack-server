@@ -19,6 +19,8 @@ public class TuringMachineDto {
 
     private String name;
 
+    private String description;
+
     private Set<Character> tapeCharacters;
 
     private Set<MachineStateDto> states;

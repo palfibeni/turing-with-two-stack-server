@@ -27,6 +27,7 @@
                 <constraints primaryKey="true" primaryKeyName="turing_machinePK"/>
             </column>
             <column name="name" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
             <column name="created" type="TIMESTAMP" defaultValue="CURRENT_TIMESTAMP"/>
         </createTable>
     </changeSet>

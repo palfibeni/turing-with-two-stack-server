@@ -22,20 +22,6 @@ public class TwoStackMachineConverterTest {
     private TwoStackMachineConverter twoStackMachineConverter;
 
     @Test
-    public void convertEmptyTuringMachine() {
-        val turingMachine = createTuringMachine(emptySet(), emptySet());
-
-        val twoStackMachine = twoStackMachineConverter.fromTuringMachine(turingMachine);
-
-        assertThat(twoStackMachine.getStates()).isEmpty();
-        assertThat(twoStackMachine.getStartState()).isNull();
-        assertThat(twoStackMachine.getAcceptStates()).isEmpty();
-        assertThat(twoStackMachine.getDeclineStates()).isEmpty();
-        assertThat(twoStackMachine.getRules()).isEmpty();
-        assertEquals(twoStackMachine.getInputCharacters(), characters);
-    }
-
-    @Test
     public void convertTuringMachine() {
         val turingMachine = createTuringMachine(emptySet());
 

@@ -31,9 +31,9 @@ public class TwoStackCalculatorTest {
 
         val condition = result.get(0);
         assertThat(condition.getCurrentState()).isEqualTo(acceptStart);
-        assertThat(condition.getLeftStack()).isEmpty();
+        assertThat(condition.getLeftStack()).containsExactly(TwoStackCondition.STACK_BOTTOM);
         assertThat(condition.getCurrentPosition()).isEqualTo('A');
-        assertThat(condition.getRightStack()).containsExactly('C', 'B', 'A');
+        assertThat(condition.getRightStack()).containsExactly(TwoStackCondition.STACK_BOTTOM);
     }
 
     @Test
@@ -49,7 +49,7 @@ public class TwoStackCalculatorTest {
     @Test
     public void acceptLinearWithOneStep() {
         final LinkedHashSet<TwoStackRule> rules = Sets.newLinkedHashSet(
-                createTwoStackRule(startState, 'A', acceptState1, "X", "", false));
+                createTwoStackRule(startState,TwoStackCondition.STACK_BOTTOM, TwoStackCondition.STACK_BOTTOM, 'A', acceptState1, TwoStackCondition.STACK_BOTTOM_AS_STRING + "X", TwoStackCondition.STACK_BOTTOM_AS_STRING, false));
         this.twoStackMachine = createTwoStackMachine(rules);
 
         final List<TwoStackCondition> result = new TwoStackCalculator(twoStackMachine).calculate("ABC");
@@ -58,21 +58,21 @@ public class TwoStackCalculatorTest {
 
         val condition1 = result.get(0);
         assertThat(condition1.getCurrentState()).isEqualTo(startState);
-        assertThat(condition1.getLeftStack()).isEmpty();
+        assertThat(condition1.getLeftStack()).containsExactly(TwoStackCondition.STACK_BOTTOM);
         assertThat(condition1.getCurrentPosition()).isEqualTo('A');
-        assertThat(condition1.getRightStack()).containsExactly('C', 'B', 'A');
+        assertThat(condition1.getRightStack()).containsExactly(TwoStackCondition.STACK_BOTTOM);
 
         val condition2 = result.get(1);
         assertThat(condition2.getCurrentState()).isEqualTo(acceptState1);
-        assertThat(condition2.getLeftStack()).containsExactly('X');
+        assertThat(condition2.getLeftStack()).containsExactly(TwoStackCondition.STACK_BOTTOM, 'X');
         assertThat(condition2.getCurrentPosition()).isEqualTo('B');
-        assertThat(condition2.getRightStack()).containsExactly('C', 'B');
+        assertThat(condition2.getRightStack()).containsExactly(TwoStackCondition.STACK_BOTTOM);
     }
 
     @Test
     public void declineLinearWithOneStep() {
         final LinkedHashSet<TwoStackRule> rules = Sets.newLinkedHashSet(
-                createTwoStackRule(startState, 'A', declineState1, "X", "", false));
+                createTwoStackRule(startState,TwoStackCondition.STACK_BOTTOM, TwoStackCondition.STACK_BOTTOM, 'A', declineState1, TwoStackCondition.STACK_BOTTOM_AS_STRING + "X", TwoStackCondition.STACK_BOTTOM_AS_STRING, false));
         this.twoStackMachine = createTwoStackMachine(rules);
 
         final List<TwoStackCondition> result = new TwoStackCalculator(twoStackMachine).calculate("ABC");
@@ -84,10 +84,10 @@ public class TwoStackCalculatorTest {
     @Test
     public void acceptLinearAfterReadWholeInput() {
         final LinkedHashSet<TwoStackRule> rules = Sets.newLinkedHashSet(
-                createTwoStackRule(startState, 'A', middleState1, "X", "", false),
-                createTwoStackRule(middleState1, 'B', middleState1, "X", "", false),
-                createTwoStackRule(middleState1, 'C', middleState1, "X", "", false),
-                createTwoStackRule(middleState1, Condition.EMPTY, acceptState1, "", Condition.EMPTY_AS_STRING, false));
+                createTwoStackRule(startState, TwoStackCondition.STACK_BOTTOM, TwoStackCondition.STACK_BOTTOM, 'A', middleState1, TwoStackCondition.STACK_BOTTOM_AS_STRING + "X", TwoStackCondition.STACK_BOTTOM_AS_STRING, false),
+                createTwoStackRule(middleState1, TwoStackCondition.JOKER, TwoStackCondition.STACK_BOTTOM, 'B', middleState1, TwoStackCondition.JOKER + "X", TwoStackCondition.STACK_BOTTOM_AS_STRING, false),
+                createTwoStackRule(middleState1, TwoStackCondition.JOKER, TwoStackCondition.STACK_BOTTOM, 'C', middleState1, TwoStackCondition.JOKER + "X", TwoStackCondition.STACK_BOTTOM_AS_STRING, false),
+                createTwoStackRule(middleState1, TwoStackCondition.JOKER, TwoStackCondition.STACK_BOTTOM, Condition.EMPTY, acceptState1, TwoStackCondition.JOKER_AS_STRING, TwoStackCondition.STACK_BOTTOM_AS_STRING, false));
         this.twoStackMachine = createTwoStackMachine(rules);
 
         final List<TwoStackCondition> result = new TwoStackCalculator(twoStackMachine).calculate("ABC");
@@ -96,46 +96,46 @@ public class TwoStackCalculatorTest {
 
         val condition1 = result.get(0);
         assertThat(condition1.getCurrentState()).isEqualTo(startState);
-        assertThat(condition1.getLeftStack()).isEmpty();
+        assertThat(condition1.getLeftStack()).containsExactly(TwoStackCondition.STACK_BOTTOM);
         assertThat(condition1.getCurrentPosition()).isEqualTo('A');
-        assertThat(condition1.getRightStack()).containsExactly('C', 'B', 'A');
+        assertThat(condition1.getRightStack()).containsExactly(TwoStackCondition.STACK_BOTTOM);
 
         val condition2 = result.get(1);
         assertThat(condition2.getCurrentState()).isEqualTo(middleState1);
-        assertThat(condition2.getLeftStack()).containsExactly('X');
+        assertThat(condition2.getLeftStack()).containsExactly(TwoStackCondition.STACK_BOTTOM, 'X');
         assertThat(condition2.getCurrentPosition()).isEqualTo('B');
-        assertThat(condition2.getRightStack()).containsExactly('C', 'B');
+        assertThat(condition2.getRightStack()).containsExactly(TwoStackCondition.STACK_BOTTOM);
 
         val condition3 = result.get(2);
         assertThat(condition3.getCurrentState()).isEqualTo(middleState1);
-        assertThat(condition3.getLeftStack()).containsExactly('X', 'X');
+        assertThat(condition3.getLeftStack()).containsExactly(TwoStackCondition.STACK_BOTTOM, 'X', 'X');
         assertThat(condition3.getCurrentPosition()).isEqualTo('C');
-        assertThat(condition3.getRightStack()).containsExactly('C');
+        assertThat(condition2.getRightStack()).containsExactly(TwoStackCondition.STACK_BOTTOM);
 
         val condition4 = result.get(3);
         assertThat(condition4.getCurrentState()).isEqualTo(middleState1);
-        assertThat(condition4.getLeftStack()).containsExactly('X', 'X', 'X');
+        assertThat(condition4.getLeftStack()).containsExactly(TwoStackCondition.STACK_BOTTOM, 'X', 'X', 'X');
         assertThat(condition4.getCurrentPosition()).isEqualTo(Condition.EMPTY);
-        assertThat(condition4.getRightStack()).isEmpty();
+        assertThat(condition2.getRightStack()).containsExactly(TwoStackCondition.STACK_BOTTOM);
 
         val condition5 = result.get(4);
         assertThat(condition5.getCurrentState()).isEqualTo(acceptState1);
-        assertThat(condition5.getLeftStack()).containsExactly('X', 'X', 'X');
+        assertThat(condition5.getLeftStack()).containsExactly(TwoStackCondition.STACK_BOTTOM, 'X', 'X', 'X');
         assertThat(condition5.getCurrentPosition()).isEqualTo(Condition.EMPTY);
-        assertThat(condition5.getRightStack()).isEmpty();
+        assertThat(condition2.getRightStack()).containsExactly(TwoStackCondition.STACK_BOTTOM);
     }
 
     @Test
     public void acceptNonLinearAfterReadWholeInput() {
         final LinkedHashSet<TwoStackRule> rules = Sets.newLinkedHashSet(
-                createTwoStackRule(startState, 'A', middleState1, "X", "", false),
-                createTwoStackRule(startState, 'A', middleState2, "X", "", false),
-                createTwoStackRule(middleState1, 'B', middleState1, "X", "", false),
-                createTwoStackRule(middleState1, 'C', middleState1, "X", "", false),
-                createTwoStackRule(middleState2, 'B', middleState2, "X", "", false),
-                createTwoStackRule(middleState2, 'C', middleState2, "X", "", false),
-                createTwoStackRule(middleState1, Condition.EMPTY, acceptState1, "", Condition.EMPTY_AS_STRING, false),
-                createTwoStackRule(middleState2, Condition.EMPTY, declineState1, "", Condition.EMPTY_AS_STRING, false)
+                createTwoStackRule(startState, TwoStackCondition.STACK_BOTTOM, TwoStackCondition.STACK_BOTTOM, 'A', middleState1, TwoStackCondition.STACK_BOTTOM_AS_STRING + "X", TwoStackCondition.STACK_BOTTOM_AS_STRING, false),
+                createTwoStackRule(startState, TwoStackCondition.JOKER, TwoStackCondition.STACK_BOTTOM, 'A', middleState2, TwoStackCondition.JOKER_AS_STRING + "X", TwoStackCondition.STACK_BOTTOM_AS_STRING, false),
+                createTwoStackRule(middleState1, TwoStackCondition.JOKER, TwoStackCondition.STACK_BOTTOM, 'B', middleState1, TwoStackCondition.JOKER_AS_STRING +"X", TwoStackCondition.STACK_BOTTOM_AS_STRING, false),
+                createTwoStackRule(middleState1, TwoStackCondition.JOKER, TwoStackCondition.STACK_BOTTOM, 'C', middleState1, TwoStackCondition.JOKER_AS_STRING +"X", TwoStackCondition.STACK_BOTTOM_AS_STRING, false),
+                createTwoStackRule(middleState2, TwoStackCondition.JOKER, TwoStackCondition.STACK_BOTTOM, 'B', middleState2, TwoStackCondition.JOKER_AS_STRING +"X", TwoStackCondition.STACK_BOTTOM_AS_STRING, false),
+                createTwoStackRule(middleState2, TwoStackCondition.JOKER, TwoStackCondition.STACK_BOTTOM, 'C', middleState2, TwoStackCondition.JOKER_AS_STRING +"X", TwoStackCondition.STACK_BOTTOM_AS_STRING, false),
+                createTwoStackRule(middleState1, TwoStackCondition.JOKER, TwoStackCondition.STACK_BOTTOM, Condition.EMPTY, acceptState1, TwoStackCondition.JOKER_AS_STRING, TwoStackCondition.STACK_BOTTOM_AS_STRING, false),
+                createTwoStackRule(middleState2, TwoStackCondition.JOKER, TwoStackCondition.STACK_BOTTOM, Condition.EMPTY, declineState1, TwoStackCondition.JOKER_AS_STRING, TwoStackCondition.STACK_BOTTOM_AS_STRING, false)
         );
         this.twoStackMachine = createTwoStackMachine(rules);
 
@@ -145,39 +145,40 @@ public class TwoStackCalculatorTest {
 
         val condition1 = result.get(0);
         assertThat(condition1.getCurrentState()).isEqualTo(startState);
-        assertThat(condition1.getLeftStack()).isEmpty();
+        assertThat(condition1.getLeftStack()).containsExactly(TwoStackCondition.STACK_BOTTOM);
         assertThat(condition1.getCurrentPosition()).isEqualTo('A');
-        assertThat(condition1.getRightStack()).containsExactly('C', 'B', 'A');
+        assertThat(condition1.getRightStack()).containsExactly(TwoStackCondition.STACK_BOTTOM);
 
         val condition2 = result.get(1);
         assertThat(condition2.getCurrentState()).isEqualTo(middleState1);
-        assertThat(condition2.getLeftStack()).containsExactly('X');
+        assertThat(condition2.getLeftStack()).containsExactly(TwoStackCondition.STACK_BOTTOM, 'X');
         assertThat(condition2.getCurrentPosition()).isEqualTo('B');
-        assertThat(condition2.getRightStack()).containsExactly('C', 'B');
+        assertThat(condition2.getRightStack()).containsExactly(TwoStackCondition.STACK_BOTTOM);
 
         val condition3 = result.get(2);
         assertThat(condition3.getCurrentState()).isEqualTo(middleState1);
-        assertThat(condition3.getLeftStack()).containsExactly('X', 'X');
+        assertThat(condition3.getLeftStack()).containsExactly(TwoStackCondition.STACK_BOTTOM, 'X', 'X');
         assertThat(condition3.getCurrentPosition()).isEqualTo('C');
-        assertThat(condition3.getRightStack()).containsExactly('C');
+        assertThat(condition3.getRightStack()).containsExactly(TwoStackCondition.STACK_BOTTOM);
 
         val condition4 = result.get(3);
         assertThat(condition4.getCurrentState()).isEqualTo(middleState1);
-        assertThat(condition4.getLeftStack()).containsExactly('X', 'X', 'X');
+        assertThat(condition4.getLeftStack()).containsExactly(TwoStackCondition.STACK_BOTTOM, 'X', 'X', 'X');
         assertThat(condition4.getCurrentPosition()).isEqualTo(Condition.EMPTY);
-        assertThat(condition4.getRightStack()).isEmpty();
+        assertThat(condition4.getRightStack()).containsExactly(TwoStackCondition.STACK_BOTTOM);
 
         val condition5 = result.get(4);
         assertThat(condition5.getCurrentState()).isEqualTo(acceptState1);
-        assertThat(condition5.getLeftStack()).containsExactly('X', 'X', 'X');
+        assertThat(condition5.getLeftStack()).containsExactly(TwoStackCondition.STACK_BOTTOM, 'X', 'X', 'X');
         assertThat(condition5.getCurrentPosition()).isEqualTo(Condition.EMPTY);
-        assertThat(condition5.getRightStack()).isEmpty();
+        assertThat(condition5.getRightStack()).containsExactly(TwoStackCondition.STACK_BOTTOM);
     }
 
     @Test
     public void declineAfterMaximumStepsReached() {
         final LinkedHashSet<TwoStackRule> rules = Sets.newLinkedHashSet(
-                createTwoStackRule(startState, 'A', startState, "", "A", false));
+                createTwoStackRule(startState, TwoStackCondition.STACK_BOTTOM,  TwoStackCondition.STACK_BOTTOM, 'A', startState, TwoStackCondition.STACK_BOTTOM_AS_STRING + "A", TwoStackCondition.STACK_BOTTOM_AS_STRING, false),
+                createTwoStackRule(startState, 'A',  TwoStackCondition.STACK_BOTTOM, Condition.EMPTY, startState, "A", TwoStackCondition.STACK_BOTTOM_AS_STRING, false));
         this.twoStackMachine = createTwoStackMachine(rules);
 
         final List<TwoStackCondition> result = new TwoStackCalculator(twoStackMachine).calculate("ABC");

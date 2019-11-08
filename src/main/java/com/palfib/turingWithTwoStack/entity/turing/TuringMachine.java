@@ -24,6 +24,9 @@ public class TuringMachine extends Machine {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "description")
+    private String description;
+
     @OneToMany(mappedBy = "machine", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TuringRule> rules;
 
@@ -31,10 +34,11 @@ public class TuringMachine extends Machine {
     private Set<MachineState> states;
 
     @Builder
-    public TuringMachine(final Long id, final String name, final Set<Character> inputCharacters,
+    public TuringMachine(final Long id, final String name, final String description, final Set<Character> inputCharacters,
                          final Set<MachineState> states, final Set<TuringRule> rules, final Date created) {
         super(id, inputCharacters, created);
         this.name = name;
+        this.description = description;
         this.rules = rules;
         this.states = states;
     }

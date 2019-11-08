@@ -107,7 +107,7 @@ public abstract class Calculator<T extends Machine, C extends Condition>{
                 this.accepted = false;
             }
             // We are over 1000 steps -> accept = false
-            if (this.numberOfSteps > 1000) {
+            if (this.numberOfSteps > 10000) {
                 this.accepted = false;
             }
         }

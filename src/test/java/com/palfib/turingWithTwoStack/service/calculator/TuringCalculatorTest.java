@@ -6,7 +6,6 @@ import com.palfib.turingWithTwoStack.entity.turing.TuringCondition;
 import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
 import com.palfib.turingWithTwoStack.entity.turing.TuringRule;
 import lombok.val;
-import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
 import org.junit.Test;
 
@@ -176,7 +175,8 @@ public class TuringCalculatorTest {
     @Test
     public void declineAfterMaximumStepsReached() {
         final LinkedHashSet<TuringRule> rules = Sets.newLinkedHashSet(
-                createTuringRule(startState, 'A', Direction.STAY, startState, 'A'));
+                createTuringRule(startState, 'A', Direction.FORWARD, startState, 'A'),
+                createTuringRule(startState, Condition.EMPTY, Direction.BACKWARD, startState, Condition.EMPTY));
         this.turingMachine = createTuringMachine(rules);
 
         final List<TuringCondition> result = new TuringCalculator(turingMachine).calculate("ABC");

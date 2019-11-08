@@ -4,6 +4,7 @@ import com.palfib.turingWithTwoStack.entity.MachineState;
 import com.palfib.turingWithTwoStack.entity.enums.Direction;
 import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
 import com.palfib.turingWithTwoStack.entity.turing.TuringRule;
+import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackCondition;
 import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackMachine;
 import com.palfib.turingWithTwoStack.entity.twoStack.TwoStackRule;
 import org.assertj.core.util.Sets;
@@ -76,9 +77,11 @@ public class TestHelper {
                 .build();
     }
 
-    public static TwoStackRule createTwoStackRule(final MachineState fromState, final Character readCharacter, final MachineState toState, final String writeLeft, final String writeRight, final boolean copyLeftToRight) {
+    public static TwoStackRule createTwoStackRule(final MachineState fromState, final Character readLeft, final Character readRight, final Character readCharacter, final MachineState toState, final String writeLeft, final String writeRight, final boolean copyLeftToRight) {
         return TwoStackRule.builder()
                 .fromState(fromState)
+                .readLeft(readLeft)
+                .readRight(readRight)
                 .readCharacter(readCharacter)
                 .toState(toState)
                 .writeLeft(writeLeft)
