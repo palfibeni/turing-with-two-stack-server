@@ -16,7 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <diffChangeLogFile>src/main/resources/db/liquibase-changelog.xml</diffChangeLogFile>
+        <diffChangeLogFile>src/main/resources/db/liquibase/liquibase-changelog.xml</diffChangeLogFile>
     </properties>
 
     <dependencies>
@@ -91,7 +91,6 @@
                 <configuration>
                     <changeSetAuthor>palfib</changeSetAuthor>
                     <diffChangeLogFile>${diffChangeLogFile}</diffChangeLogFile>
-                    <propertyFile>src/main/resources/liquibase.properties</propertyFile>
                     <referenceUrl>hibernate:spring:com.palfib.turingWithTwoStack.entity?hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;dialect=org.hibernate.dialect.H2Dialect</referenceUrl>
                 </configuration>
                 <dependencies>

@@ -12,8 +12,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "turingRule")
-@Data
 @NoArgsConstructor
+@Data
 public class TuringRule extends Rule {
 
     @Column(name = "writeCharacter")

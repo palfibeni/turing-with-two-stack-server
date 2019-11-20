@@ -17,8 +17,8 @@ import static java.util.stream.Collectors.toSet;
 
 @Entity
 @Table(name = "turingMachine")
-@Data
 @NoArgsConstructor
+@Data
 public class TuringMachine extends Machine {
 
     @Column(name = "name")

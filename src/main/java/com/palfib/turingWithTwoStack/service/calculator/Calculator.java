@@ -21,13 +21,6 @@ public abstract class Calculator<T extends Machine, C extends Condition>{
     }
 
     public List<C> calculate(final String input) {
-        //TODO introduce Trampoline:
-        // https://github.com/bodar/totallylazy
-        // https://medium.com/@johnmcclean/trampolining-a-practical-guide-for-awesome-java-developers-4b657d9c3076
-        // https://medium.com/@johnmcclean/java-fun-recursive-concurrency-the-easy-way-f2c7cc02db28
-        // https://www.slideshare.net/mariofusco/lazine
-
-
         // Currently implemented like this:
         // https://stackoverflow.com/questions/706048/using-threads-and-recursion-in-java-to-calculate-fibonacci-numbers
         val calculation = createCalculation(initState(this.machine.getStartState(), input), 0);
@@ -38,7 +31,7 @@ public abstract class Calculator<T extends Machine, C extends Condition>{
                 return calculation.getAcceptedCalculationConditions();
             }
         } catch (InterruptedException e) {
-            // TODO exception handling
+            return null;
         }
         return null;
     }
@@ -131,7 +124,6 @@ public abstract class Calculator<T extends Machine, C extends Condition>{
                     }
                 }
             } catch (final InterruptedException e) {
-                // TODO exception handling
             }
         }
 

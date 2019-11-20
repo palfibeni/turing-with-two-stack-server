@@ -54,12 +54,6 @@ public class TuringMachineController {
         }
     }
 
-    @GetMapping(path = "/an-bn-cn-turing-machine", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<TuringMachineDto> getAnBnCnTuringMachine() {
-        val anBnCnMachine = turingMachineService.getAnBnCnMachine();
-        return ResponseEntity.ok(turingMachineConverter.toDto(anBnCnMachine));
-    }
-
     /**
      * Creates or Updates a Turing machine
      * @return saved Turing machine
