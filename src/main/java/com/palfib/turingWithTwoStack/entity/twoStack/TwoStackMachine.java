@@ -26,7 +26,6 @@ public class TwoStackMachine extends Machine {
     }
 
     public MachineState getStartState() {
-        // TODO validálni kéne
         return states.stream().filter(MachineState::isStart).findFirst().orElse(null);
     }
 

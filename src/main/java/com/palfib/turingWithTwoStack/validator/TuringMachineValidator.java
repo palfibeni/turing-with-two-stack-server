@@ -31,8 +31,12 @@ public class TuringMachineValidator {
     }
 
     private void validateStates(final List<String> errors, Set<MachineStateDto> states) {
-        if (states.stream().noneMatch(MachineStateDto::isStart)) {
+        val startStates = states.stream().filter(MachineStateDto::isStart).count();
+        if (startStates == 0) {
             errors.add("There is no start state!\n");
+        }
+        if (startStates > 1) {
+            errors.add("More than one start state!\n");
         }
     }
 

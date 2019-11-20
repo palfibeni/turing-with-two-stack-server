@@ -3,7 +3,8 @@ spring:
     hibernate:
       ddl-auto: none
   liquibase:
-    change-log: classpath:/db/liquibase/master-changelog.xml
+    enabled: true
+    change-log: classpath:/db/changelog/master-changelog.xml
   h2:
     console:
       enabled: true
@@ -13,3 +14,5 @@ spring:
       password:
       driver-class-name: org.h2.Driver
       platform: h2
+liquibase:
+  change-log: classpath:/db/changelog/master-changelog.xml

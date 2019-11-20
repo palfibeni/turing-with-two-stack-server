@@ -10,7 +10,7 @@
     </changeSet>
     <changeSet author="palfib" id="1569503535055-2">
         <createTable tableName="machine_state">
-            <column autoIncrement="true" name="id" type="BIGINT">
+            <column autoIncrement="true" name="id" type="BIGINT" startWith="39">
                 <constraints primaryKey="true" primaryKeyName="machine_statePK"/>
             </column>
             <column name="accept" type="BOOLEAN"/>
@@ -23,7 +23,7 @@
     </changeSet>
     <changeSet author="palfib" id="1569503535055-3">
         <createTable tableName="turing_machine">
-            <column autoIncrement="true" name="id" type="BIGINT">
+            <column autoIncrement="true" name="id" type="BIGINT" startWith="2">
                 <constraints primaryKey="true" primaryKeyName="turing_machinePK"/>
             </column>
             <column name="name" type="VARCHAR(255)"/>
@@ -41,7 +41,7 @@
     </changeSet>
     <changeSet author="palfib" id="1569503535055-5">
         <createTable tableName="turing_rule">
-            <column autoIncrement="true" name="id" type="BIGINT">
+            <column autoIncrement="true" name="id" type="BIGINT" startWith="27">
                 <constraints primaryKey="true" primaryKeyName="turing_rulePK"/>
             </column>
             <column name="read_character" type="CHAR(255)"/>

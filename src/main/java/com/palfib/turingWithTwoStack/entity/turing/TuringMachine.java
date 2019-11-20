@@ -27,10 +27,10 @@ public class TuringMachine extends Machine {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "machine", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "machine", cascade = CascadeType.MERGE, orphanRemoval = true)
     private Set<TuringRule> rules;
 
-    @OneToMany(mappedBy = "turingMachine", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "turingMachine", cascade = CascadeType.MERGE, orphanRemoval = true)
     private Set<MachineState> states;
 
     @Builder
@@ -44,7 +44,6 @@ public class TuringMachine extends Machine {
     }
 
     public MachineState getStartState() {
-        // TODO validálni kéne
         return states.stream().filter(MachineState::isStart).findFirst().orElse(null);
     }
 
