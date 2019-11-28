@@ -28,7 +28,6 @@ public class TwoStackMachineConverter {
         states.add(startRead);
         states.add(copyToRight);
         states.add(turingStart);
-        states.add(turingStart);
         val inputRules = twoStackRuleConverter.fromTuringTapeCharachters(startRead, copyToRight, turingStart, turingMachine.getInputCharacters());
         val convertedRules = twoStackRuleConverter.fromTuringRules(turingMachine.getRules());
         return TwoStackMachine.builder()

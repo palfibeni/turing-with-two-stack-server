@@ -13,6 +13,7 @@ import com.palfib.turingWithTwoStack.service.converter.TwoStackMachineConverter;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -53,8 +54,7 @@ public class CalculationService {
         val twoStackCalculator = new TwoStackCalculator(twoStackMachine);
         val result = twoStackCalculator.calculate(input);
         if (result == null) {
-            // TODO exception handling
-            throw new NoValidRunException(input);
+            return Collections.emptyList());
         }
         return result;
     }

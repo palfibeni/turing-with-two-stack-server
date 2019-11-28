@@ -2,6 +2,7 @@ package com.palfib.turingWithTwoStack.converter;
 
 import com.palfib.turingWithTwoStack.dto.MachineStateDto;
 import com.palfib.turingWithTwoStack.entity.MachineState;
+import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -12,20 +13,18 @@ import static java.util.stream.Collectors.toSet;
 @Component
 public class MachineStateConverter {
 
-    private Long stateId = 1L;
-
-    public Set<MachineState> fromDtos(final Set<MachineStateDto> dtos) {
-        stateId = 1L;
-        return dtos.stream().map(this::fromDto).collect(toSet());
+    public Set<MachineState> fromDtos(final TuringMachine turingMachine, final Set<MachineStateDto> dtos) {
+        return dtos.stream().map(dto -> fromDto(turingMachine, dto)).collect(toSet());
     }
 
-    public MachineState fromDto(final MachineStateDto dto) {
+    public MachineState fromDto(final TuringMachine turingMachine, final MachineStateDto dto) {
         return MachineState.builder()
-                .id(ofNullable(dto.getId()).orElse(stateId++))
+                .id(dto.getId())
                 .name(dto.getName())
                 .start(dto.isStart())
                 .accept(dto.isAccept())
                 .decline(dto.isDecline())
+                .turingMachine(turingMachine)
                 .build();
     }
 

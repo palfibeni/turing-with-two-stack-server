@@ -2,10 +2,12 @@ package com.palfib.turingWithTwoStack.converter;
 
 import com.palfib.turingWithTwoStack.dto.TuringMachineDto;
 import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
+import com.palfib.turingWithTwoStack.entity.turing.TuringRule;
 import lombok.val;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
 
@@ -23,15 +25,17 @@ public class TuringMachineConverter {
     }
 
     public TuringMachine fromDto(final TuringMachineDto dto) {
-        val states = machineStateConverter.fromDtos(dto.getStates());
-        return TuringMachine.builder()
+        val turingMachine = TuringMachine.builder()
                 .id(dto.getId())
                 .name(dto.getName())
                 .description(dto.getDescription())
                 .inputCharacters(dto.getTapeCharacters())
-                .states(states)
-                .rules(turingRuleConverter.fromDtos(dto.getRules()))
                 .build();
+        val states = machineStateConverter.fromDtos(turingMachine, dto.getStates());
+        turingMachine.setStates(states);
+        val rules = turingRuleConverter.fromDtos(turingMachine, dto.getRules());
+        turingMachine.setRules(rules);
+        return turingMachine;
     }
 
     public List<TuringMachineDto> toDtos(final List<TuringMachine> turingMachines) {

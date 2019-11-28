@@ -27,10 +27,10 @@ public class TuringMachine extends Machine {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "machine", cascade = CascadeType.MERGE, orphanRemoval = true)
+    @OneToMany(mappedBy = "machine", orphanRemoval = true)
     private Set<TuringRule> rules;
 
-    @OneToMany(mappedBy = "turingMachine", cascade = CascadeType.MERGE, orphanRemoval = true)
+    @OneToMany(mappedBy = "turingMachine", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MachineState> states;
 
     @Builder

@@ -3,6 +3,7 @@ package com.palfib.turingWithTwoStack.converter;
 import com.palfib.turingWithTwoStack.dto.TuringRuleDto;
 import com.palfib.turingWithTwoStack.entity.MachineState;
 import com.palfib.turingWithTwoStack.entity.enums.Direction;
+import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
 import com.palfib.turingWithTwoStack.entity.turing.TuringRule;
 import org.springframework.stereotype.Component;
 
@@ -16,25 +17,23 @@ public class TuringRuleConverter {
 
     private final MachineStateConverter machineStateConverter;
 
-    private Long ruleId = 1L;
-
     public TuringRuleConverter(final MachineStateConverter machineStateConverter) {
         this.machineStateConverter = machineStateConverter;
     }
 
-    public Set<TuringRule> fromDtos(final Set<TuringRuleDto> dtos) {
-        ruleId = 1L;
-        return dtos.stream().map(this::fromDto).collect(toSet());
+    public Set<TuringRule> fromDtos(final TuringMachine turingMachine, final Set<TuringRuleDto> dtos) {
+        return dtos.stream().map(dto -> fromDto(turingMachine, dto)).collect(toSet());
     }
 
-    private TuringRule fromDto(final TuringRuleDto dto) {
+    private TuringRule fromDto(final TuringMachine turingMachine, final TuringRuleDto dto) {
         return TuringRule.builder()
-                .id(ofNullable(dto.getId()).orElse(ruleId++))
-                .fromState(machineStateConverter.fromDto(dto.getFromState()))
-                .toState(machineStateConverter.fromDto(dto.getToState()))
+                .id(dto.getId())
+                .fromState(machineStateConverter.fromDto(turingMachine, dto.getFromState()))
+                .toState(machineStateConverter.fromDto(turingMachine, dto.getToState()))
                 .readCharacter(dto.getReadCharacter())
                 .writeCharacter(dto.getWriteCharacter())
                 .direction(Direction.valueOf(dto.getDirection()))
+                .machine(turingMachine)
                 .build();
     }
 

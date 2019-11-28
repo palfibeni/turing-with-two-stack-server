@@ -1,16 +1,26 @@
 package com.palfib.turingWithTwoStack.service;
 
+import com.palfib.turingWithTwoStack.entity.MachineState;
 import com.palfib.turingWithTwoStack.entity.turing.TuringMachine;
+import com.palfib.turingWithTwoStack.entity.turing.TuringRule;
 import com.palfib.turingWithTwoStack.exception.ValidationException;
 import com.palfib.turingWithTwoStack.repository.MachineStateRepository;
 import com.palfib.turingWithTwoStack.repository.TuringMachineRepository;
 import com.palfib.turingWithTwoStack.repository.TuringRuleRepository;
+import liquibase.util.CollectionUtil;
 import lombok.val;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 @Service
 public class TuringMachineService {
@@ -49,17 +59,26 @@ public class TuringMachineService {
     }
 
     public TuringMachine save(final TuringMachine turingMachine) {
-        if(turingMachine.getId() != null) {
-            val oldTuringMachine = turingMachineRepository.getOne(turingMachine.getId());
-            oldTuringMachine.getStates().forEach(machineStateRepository::delete);
-            oldTuringMachine.getRules().forEach(turingRuleRepository::delete);
+        val oldRules = turingMachine.getId() != null ? turingMachineRepository.getOne(turingMachine.getId()).getRules() : new HashSet<TuringRule>();
+        val newTuringMachine =  turingMachineRepository.saveAndFlush(turingMachine);
+        val newRules = turingMachine.getRules().stream().map(rule -> {
+            rule.setFromState(getSavedState(newTuringMachine, rule, TuringRule::getFromState));
+            rule.setToState(getSavedState(newTuringMachine, rule, TuringRule::getToState));
+            return turingRuleRepository.save(rule);
+        }).collect(toSet());
+        if (turingMachine.getId() != null) {
+            oldRules.removeAll(newRules);
+            oldRules.forEach(turingRuleRepository::delete);
         }
-        val newTuringMachine =  turingMachineRepository.save(turingMachine);
-        turingMachine.getStates().forEach(state -> state.setTuringMachine(newTuringMachine));
-        turingMachine.getStates().forEach(machineStateRepository::save);
-        turingMachine.getRules().forEach(rule -> rule.setMachine(newTuringMachine));
-        turingMachine.getRules().forEach(turingRuleRepository::save);
         return newTuringMachine;
+    }
+
+    private MachineState getSavedState(TuringMachine newTuringMachine, TuringRule rule, Function<TuringRule, MachineState> machineStateGetter) {
+        return newTuringMachine.getStates()
+                .stream()
+                .filter(state -> state.getName().equals(machineStateGetter.apply(rule).getName()))
+                .findFirst()
+                .orElseThrow(IllegalStateException::new);
     }
 
     public void delete(final TuringMachine turingMachine) {
