@@ -54,7 +54,7 @@ public class CalculationService {
         val twoStackCalculator = new TwoStackCalculator(twoStackMachine);
         val result = twoStackCalculator.calculate(input);
         if (result == null) {
-            return Collections.emptyList());
+            return Collections.emptyList();
         }
         return result;
     }
